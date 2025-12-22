@@ -1,0 +1,470 @@
+// src/modules/Dashboard/Dashboard.scss
+.dashboard {
+  width: 100%;
+  height: calc(100vh - 60px); // Adjust based on your header height
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  overflow: hidden;
+
+  // Initial Screen (Not Recording)
+  .dashboard-initial {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+
+    @media (max-width: 768px) {
+      padding: 20px;
+    }
+  }
+
+  // Recording Screen (Split View)
+  .dashboard-recording {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+    overflow: hidden;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    @media (max-width: 768px) {
+      padding: 10px;
+      gap: 10px;
+    }
+
+    // Left Side - Live Transcript
+    .recording-left {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      @media (max-width: 992px) {
+        min-height: 300px;
+      }
+
+      @media (max-width: 768px) {
+        min-height: 250px;
+      }
+    }
+
+    // Right Side - Visualizer + Controls
+    .recording-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 16px;
+
+      @media (max-width: 768px) {
+        padding: 15px;
+        gap: 15px;
+      }
+
+      .recording-status-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+
+        @media (max-width: 768px) {
+          font-size: 13px;
+          padding: 6px 12px;
+        }
+
+        .status-dot {
+          width: 8px;
+          height: 8px;
+          background: #ff4d4f;
+          border-radius: 50%;
+          animation: blink 1.5s ease-in-out infinite;
+        }
+      }
+
+      .recording-info {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        @media (max-width: 768px) {
+          gap: 20px;
+        }
+
+        .duration {
+          font-size: 32px;
+          font-weight: 700;
+          color: #1a1a2e;
+          font-family: 'Courier New', monospace;
+          text-align: center;
+
+          @media (max-width: 768px) {
+            font-size: 24px;
+          }
+        }
+
+        .word-count {
+          padding: 6px 16px;
+          background: #e6f7ff;
+          color: #1890ff;
+          border-radius: 16px;
+          font-size: 14px;
+          font-weight: 600;
+
+          @media (max-width: 768px) {
+            font-size: 13px;
+            padding: 5px 12px;
+          }
+        }
+      }
+
+      .recording-controls {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+
+        @media (max-width: 768px) {
+          gap: 10px;
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .control-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 14px 32px;
+          border: none;
+          border-radius: 12px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+          @media (max-width: 768px) {
+            width: 100%;
+            padding: 12px 24px;
+            font-size: 15px;
+          }
+
+          .pause-icon,
+          .stop-icon {
+            font-size: 20px;
+          }
+
+          &:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+          }
+
+          &:active:not(:disabled) {
+            transform: translateY(0);
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+
+          &.pause-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+
+            &:hover:not(:disabled) {
+              background: linear-gradient(135deg, #5568d3 0%, #63408a 100%);
+            }
+          }
+
+          &.stop-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+
+            &:hover:not(:disabled) {
+              background: linear-gradient(135deg, #e082ea 0%, #e4465b 100%);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Warning Box
+  .warning-box {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 20px;
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 400px;
+    z-index: 1000;
+
+    @media (max-width: 768px) {
+      bottom: 10px;
+      right: 10px;
+      left: 10px;
+      max-width: none;
+    }
+
+    h4 {
+      margin: 0 0 10px 0;
+      color: #856404;
+      font-size: 16px;
+    }
+
+    p {
+      margin: 0;
+      color: #856404;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
+}
+
+// Animations
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(255, 107, 107, 0.6);
+  }
+}
+
+// Transcript Section (for when shown after stopping)
+.transcript-section {
+  margin-top: 40px;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-height: 400px;
+  overflow-y: auto;
+
+  @media (max-width: 768px) {
+    margin-top: 20px;
+    padding: 20px;
+    max-height: 300px;
+  }
+
+  &.empty {
+    text-align: center;
+    color: #999;
+    background: #fff8e1;
+    border: 2px dashed #ffb74d;
+
+    p {
+      margin: 10px 0;
+      
+      &.hint {
+        font-size: 14px;
+        color: #666;
+      }
+    }
+  }
+
+  .transcript-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 20px;
+      color: #1a1a2e;
+
+      @media (max-width: 768px) {
+        font-size: 18px;
+      }
+    }
+
+    .copy-btn {
+      padding: 8px 16px;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #357abd;
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  .transcript-content {
+    color: #333;
+    line-height: 1.8;
+    font-size: 16px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    min-height: 100px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+
+    @media (max-width: 768px) {
+      font-size: 15px;
+      padding: 12px;
+    }
+  }
+
+  .transcript-meta {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    gap: 30px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    p {
+      margin: 0;
+      color: #666;
+      font-size: 14px;
+
+      strong {
+        color: #333;
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
+// Scrollbar styling for transcript
+.transcript-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.transcript-section::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.transcript-section::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+
+  &:hover {
+    background: #555;
+  }
+}
+
+// File Info
+.file-info {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f0f7ff;
+  border-radius: 8px;
+  border-left: 4px solid #4a90e2;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  p {
+    margin: 5px 0;
+    color: #333;
+    font-size: 14px;
+
+    strong {
+      color: #1a1a2e;
+    }
+
+    &.info-note {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(74, 144, 226, 0.2);
+      font-size: 13px;
+      color: #666;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+  .dashboard {
+    .dashboard-initial {
+      padding: 15px;
+    }
+
+    .dashboard-recording {
+      padding: 8px;
+      gap: 8px;
+
+      .recording-right {
+        padding: 12px;
+        gap: 12px;
+      }
+    }
+  }
+}
+
+// Landscape mode for tablets
+@media (max-width: 992px) and (orientation: landscape) {
+  .dashboard-recording {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+}

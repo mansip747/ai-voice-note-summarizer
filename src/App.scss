@@ -1,0 +1,642 @@
+@use "./master.scss";
+
+html,
+body {
+  scroll-behavior: smooth;
+  min-height: 95%;
+  margin: 0;
+}
+
+*,
+input,
+button {
+  position: relative;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: inherit;
+  font-family: master.$font-arial;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  font-size: 4px !important;
+}
+
+.container {
+  position: relative;
+  margin: 0 auto;
+  padding-right: 15px;
+  padding-left: 15px;
+  max-width: 100%;
+
+  @include master.media-breakpoint-up(476px) {
+    width: 100%;
+  }
+
+  @include master.media-breakpoint-up(768px) {
+    width: 720px;
+  }
+
+  @include master.media-breakpoint-up(992px) {
+    width: 960px;
+  }
+
+  @include master.media-breakpoint-up(1200px) {
+    width: 1140px;
+  }
+
+  @include master.media-breakpoint-up(1400px) {
+    width: 1340px;
+  }
+}
+.bold {
+  font-family: master.$font-arial-bold;
+}
+
+.ant-modal-root {
+  z-index: 9999;
+}
+
+.coming-soon {
+  height: 100%;
+  width: 100%;
+  @include master.flex-center();
+  h1 {
+    text-align: center;
+    color: master.$theme-color;
+    font-family: master.$font-arial-extrabold;
+    text-transform: uppercase;
+    font-size: 45px;
+
+    @include master.media-mobile {
+      font-size: 28px;
+    }
+  }
+}
+
+// GLOBAL STYLING
+.ant-tooltip-inner {
+  font-size: 13px !important;
+  padding: 5px 14px !important;
+  min-height: auto !important;
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+input,
+textarea,
+.ant-select-selection-item {
+  @include master.media-smalldevice {
+    font-size: 16px !important;
+  }
+}
+
+.customize-form {
+  .form-label {
+    color: master.$light-black;
+    margin-bottom: 10px;
+    display: block;
+
+    .help {
+      margin-left: 8px;
+      color: master.$dark-grey;
+      cursor: pointer;
+    }
+  }
+
+  .ant-input-affix-wrapper:hover,
+  .ant-input-affix-wrapper:focus,
+  .ant-input-affix-wrapper-focused {
+    border-color: master.$theme-color !important;
+    box-shadow: 0 0 0 5px master.$input-boxshadow !important;
+  }
+
+  .ant-input-affix-wrapper,
+  .ant-input {
+    border-color: master.$border-color;
+    font-size: 14px;
+    padding: 7px 10px;
+    resize: none;
+    box-shadow: none !important;
+
+    &::placeholder {
+      color: master.$dark-grey;
+    }
+
+    &:disabled {
+      cursor: auto;
+    }
+
+    &:hover:not(:disabled),
+    &:focus:not(:disabled) {
+      border-color: master.$theme-color !important;
+    }
+
+    &.ant-input-status-error {
+      border-color: master.$error-color !important;
+    }
+
+    .ant-input-show-count-suffix {
+      color: master.$dark-grey;
+    }
+
+    @include master.media-mobile {
+      font-size: 14px;
+      padding: 5px 10px;
+    }
+  }
+
+  .ant-input-number {
+    border-color: master.$border-color;
+    box-shadow: none !important;
+
+    &:hover:not(:disabled),
+    &:focus:not(:disabled) {
+      border-color: master.$theme-color !important;
+    }
+
+    .ant-input-number-handler {
+      z-index: 9;
+      border-color: master.$theme-color;
+
+      &-up-inner,
+      &-down-inner {
+        color: master.$theme-color !important;
+      }
+    }
+  }
+
+  .ant-select {
+    height: auto;
+    font-size: 14px;
+
+    &-disabled {
+      .ant-select-selection-item {
+        color: master.$dark-grey;
+      }
+    }
+
+    &.ant-select-focused:where(.css-dev-only-do-not-override-1adbn6x).ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(
+        .ant-pagination-size-changer
+      )
+      .ant-select-selector,
+    &:not(.ant-select-disabled) .ant-select-selector:hover,
+    &:not(.ant-select-disabled) .ant-select-selector:focus {
+      border-color: master.$theme-color !important;
+      box-shadow: none;
+    }
+    &.ant-select-focused:where(.css-dev-only-do-not-override-f7vrd6).ant-select-outlined:not(.ant-select-disabled):not(
+        .ant-select-customize-input
+      ):not(.ant-pagination-size-changer)
+      .ant-select-selector {
+      border-color: master.$theme-color !important;
+    }
+
+    .ant-select-selector {
+      padding: 2px 10px;
+      border-color: master.$border-color;
+      box-shadow: none !important;
+
+      @include master.media-mobile {
+        padding: 0 10px;
+      }
+
+      .ant-select-selection-item {
+        font-size: 14px;
+
+        @include master.media-mobile {
+          font-size: 13px;
+        }
+      }
+
+      .ant-select-selection-placeholder {
+        color: master.$dark-grey;
+        font-size: 14px;
+
+        @include master.media-mobile {
+          font-size: 13px;
+        }
+      }
+
+      .ant-select-selection-search {
+        margin-inline-start: 0;
+      }
+
+      // &:hover,
+      // &:focus {
+      //   border-color: master.$theme-color !important;
+      //   box-shadow: none;
+      // }
+    }
+
+    .ant-select-dropdown {
+      z-index: 1100;
+      border: 1px solid master.$border-color;
+
+      .ant-select-item {
+        padding: 6px 10px;
+
+        &.ant-select-item-option-selected {
+          background: master.$theme-color;
+          color: master.$white;
+
+          .ant-select-item-option-state {
+            color: master.$white;
+          }
+        }
+
+        @include master.media-mobile {
+          padding: 4px 10px;
+        }
+      }
+    }
+
+    @include master.media-mobile {
+      font-size: 14px;
+    }
+  }
+
+  .ant-checkbox-wrapper {
+    .ant-checkbox {
+      &-checked .ant-checkbox-inner {
+        background-color: master.$theme-color !important;
+        border-color: master.$theme-color !important;
+      }
+
+      &:hover .ant-checkbox-inner {
+        border-color: master.$theme-color !important;
+      }
+    }
+
+    &:hover .ant-checkbox-inner {
+      border-color: master.$theme-color !important;
+    }
+  }
+
+  .ant-radio-wrapper {
+    .ant-radio {
+      .ant-radio-inner {
+        border-color: master.$grey5;
+      }
+      &-checked .ant-radio-inner {
+        background-color: master.$white !important;
+        &::after {
+          background-color: master.$theme-color !important;
+        }
+      }
+
+      &:hover .ant-radio-inner {
+        border-color: master.$dark-grey !important;
+      }
+    }
+
+    &:hover .ant-radio-inner {
+      border-color: master.$dark-grey !important;
+    }
+  }
+  .ant-rate-star-first,
+  .ant-rate-star-second {
+    color: #d5d5d5;
+  }
+
+  .ant-slider {
+    margin-left: 4px;
+    margin-right: 4px;
+
+    .ant-slider-track,
+    .ant-slider-rail {
+      border-radius: 8px;
+      background: master.$light-black;
+      height: 7px;
+    }
+
+    .ant-slider-track {
+      border-radius: 8px;
+      background: master.$theme-color-primary;
+    }
+
+    .ant-slider-step {
+      display: none;
+    }
+
+    .ant-slider-handle {
+      &::after {
+        width: 12px;
+        height: 12px;
+        box-shadow: 0 0 0 3px master.$theme-color-primary;
+        inset-inline-start: -1px !important;
+        inset-block-start: -1px !important;
+      }
+    }
+
+    .ant-slider-mark {
+      top: 17px;
+
+      @include master.media-mobile {
+        font-size: 12px;
+      }
+
+      .ant-slider-mark-text {
+        transform: none !important;
+        color: master.$black;
+
+        &:last-child {
+          left: auto !important;
+          right: 0;
+        }
+      }
+    }
+
+    .ant-tooltip {
+      .ant-tooltip-inner {
+        background: transparent;
+        color: master.$black;
+        font-family: master.$font-arial-bold;
+        box-shadow: none !important;
+        padding: 4px 0 0 !important;
+        font-size: 14px !important;
+
+        @include master.media-mobile {
+          font-size: 12px !important;
+        }
+      }
+
+      .ant-tooltip-arrow {
+        display: none;
+      }
+    }
+  }
+
+  .ant-switch {
+    &.ant-switch-checked {
+      background: master.$theme-color-primary;
+
+      &:hover {
+        background: master.$theme-color-primary-dark;
+      }
+    }
+  }
+
+  .ant-picker {
+    &:hover {
+      border-color: master.$theme-color;
+    }
+
+    &.ant-picker-focused {
+      border-color: master.$theme-color;
+      box-shadow: 0 0 0 2px master.$input-boxshadow;
+    }
+
+    .ant-picker-active-bar {
+      background: master.$theme-color;
+      border-radius: 50px;
+    }
+  }
+
+  .ant-picker-dropdown {
+    .ant-picker-cell {
+      color: master.$black;
+    }
+
+    .ant-picker-cell-in-view.ant-picker-cell-in-range::before {
+      background: master.$theme-color-light;
+    }
+
+    .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+      border-color: master.$theme-color !important;
+    }
+
+    .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-start .ant-picker-cell-inner,
+    .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-end .ant-picker-cell-inner {
+      color: master.$white;
+
+      &::after {
+        background: master.$theme-color;
+      }
+    }
+
+    .ant-picker-cell-in-view.ant-picker-cell-range-hover-start,
+    .ant-picker-cell-in-view.ant-picker-cell-range-hover,
+    .ant-picker-cell-in-view.ant-picker-cell-range-hover-end {
+      &::after {
+        border-color: master.$theme-color !important;
+      }
+    }
+
+    .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-range-start-single)::before,
+    .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-range-end-single)::before {
+      background: master.$theme-color-light;
+    }
+
+    .ant-picker-cell-in-view.ant-picker-cell-range-start,
+    .ant-picker-cell-in-view.ant-picker-cell-range-end {
+      .ant-picker-cell-inner {
+        background: master.$theme-color;
+      }
+    }
+  }
+
+  .ant-form-item-explain-error {
+    font-size: 12px;
+
+    @include master.media-mobile {
+      font-size: 11px;
+    }
+  }
+}
+
+.ant-pagination {
+  .ant-pagination-item-active {
+    border-color: master.$theme-color;
+    a {
+      color: master.$theme-color;
+    }
+  }
+}
+
+.ant-avatar {
+  background-color: master.$venetian-red;
+  .ant-avatar-string {
+    @include master.flex-center();
+  }
+}
+.ant-table-filter-dropdown {
+  .ant-dropdown-menu-item-selected {
+    background-color: master.$button-disabled-background !important;
+  }
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background: master.$theme-color !important;
+    border-color: master.$theme-color !important;
+  }
+  .ant-table-filter-dropdown-btns {
+    button:nth-child(1) {
+      background: transparent !important;
+      color: master.$theme-color !important;
+    }
+    button:nth-child(2) {
+      background: master.$theme-color !important;
+    }
+  }
+}
+
+.ant-image-preview-root {
+  z-index: 2000;
+}
+.ant-image-preview-operations-wrapper {
+  z-index: 2100;
+}
+.ant-image-preview div {
+  width: 100%;
+  height: 100%;
+}
+
+.ant-menu {
+  border-radius: 8px;
+  padding: 8px 4px;
+  display: flex;
+  flex-flow: column;
+  .ant-menu-item {
+    &:hover {
+      background-color: master.$menu-hover-background-color !important;
+      &.ant-menu-item-danger {
+        color: master.$menu-hover-danger-color !important;
+      }
+    }
+  }
+}
+
+.ant-dropdown {
+  .ant-dropdown-menu-item.ant-dropdown-menu-item-danger {
+    .ant-dropdown-menu-title-content,
+    svg {
+      color: master.$menu-hover-danger-color !important;
+    }
+  }
+  .ant-dropdown-menu-item.ant-dropdown-menu-item-danger:hover {
+    background-color: master.$menu-hover-danger-color !important;
+    .ant-dropdown-menu-title-content,
+    svg {
+      color: white !important;
+    }
+  }
+}
+
+.ant-popover {
+  .ant-popover-inner {
+    border-radius: 8px;
+  }
+}
+
+.ant-card {
+  border: 1px solid master.$border-color;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  .ant-card-head {
+    border: none;
+    padding: 0;
+  }
+  .ant-card-body {
+    padding: 0;
+  }
+}
+
+@media print {
+  @page {
+    margin-top: 2cm;
+    margin-bottom: 2cm;
+  }
+
+  html,
+  body {
+    height: 100vh;
+    margin: 0 !important;
+    padding: 0 !important;
+    break-after: avoid;
+    break-before: avoid;
+  }
+  header {
+    /* Stops header appearing on every page */
+    position: unset !important;
+    height: unset !important;
+    margin: 0 0 20px 0 !important;
+    padding: 0 0 10px 0 !important;
+    .back-btn,
+    .back-btn svg,
+    .splitter,
+    .chat-widget,
+    .action-box {
+      display: none !important;
+    }
+  }
+  .query-and-response {
+    break-inside: avoid;
+    &:first-of-type {
+      break-before: avoid;
+    }
+    &:last-of-type {
+      break-after: avoid;
+    }
+  }
+  .chat-sidebar,
+  .project-sidebar,
+  .setting-panel,
+  .top-bar,
+  .preview-disclaimer {
+    display: none !important;
+  }
+  main,
+  .preview-panel,
+  .preview-box,
+  .panel-screen,
+  .chat-box,
+  .messages-wrapper,
+  .messages-list {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    height: initial !important;
+  }
+  .chat-sidebar-menu-dropdown {
+    display: none;
+  }
+  // .messages-wrapper {
+  //   height: 100% !important;
+  //   min-height: initial;
+  //   overflow-y: initial !important;
+  // }
+  .bottom-wrapper,
+  .input-wrapper {
+    display: none;
+  }
+
+  .Toastify,
+  .widget-container {
+    display: none;
+  }
+}
+
+// Google drive file picker
+.picker-dialog {
+  z-index: 9999 !important;
+}

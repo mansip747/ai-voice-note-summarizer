@@ -1,0 +1,215 @@
+// src/modules/Feedback/Feedback.scss
+.feedback-page {
+  padding: 30px;
+  background: #ffffff;
+  min-height: 100vh;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  .feedback-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .feedback-header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    .feedback-icon {
+      font-size: 48px;
+      color: #667eea;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a1a2e;
+
+      @media (max-width: 768px) {
+        font-size: 24px;
+      }
+    }
+
+    p {
+      margin: 0;
+      font-size: 16px;
+      color: #666;
+    }
+  }
+
+  .feedback-form {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+
+    @media (max-width: 768px) {
+      padding: 20px;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+
+      h2 {
+        margin: 0 0 25px 0;
+        font-size: 22px;
+        font-weight: 600;
+        color: #1a1a2e;
+
+        @media (max-width: 768px) {
+          font-size: 18px;
+        }
+      }
+
+      .rating-section {
+        margin-bottom: 25px;
+
+        label {
+          display: block;
+          margin-bottom: 12px;
+          font-size: 15px;
+          font-weight: 500;
+          color: #333;
+        }
+
+        .ant-rate {
+          font-size: 32px;
+
+          @media (max-width: 768px) {
+            font-size: 24px;
+          }
+
+          .ant-rate-star {
+            margin-right: 8px;
+
+            &.ant-rate-star-full {
+              color: #fadb14;
+            }
+
+            &.ant-rate-star-zero {
+              color: #d9d9d9;
+            }
+          }
+        }
+      }
+
+      .textarea-section {
+        margin-bottom: 25px;
+
+        label {
+          display: block;
+          margin-bottom: 12px;
+          font-size: 15px;
+          font-weight: 500;
+          color: #333;
+        }
+
+        .ant-input {
+          border-radius: 8px;
+          border: 1px solid #d9d9d9;
+          font-size: 14px;
+          padding: 12px;
+          transition: all 0.3s ease;
+
+          &:hover {
+            border-color: #667eea;
+          }
+
+          &:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+          }
+
+          &::placeholder {
+            color: #bbb;
+          }
+        }
+
+        .ant-input-textarea-show-count {
+          &::after {
+            color: #999;
+            font-size: 12px;
+          }
+        }
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        @media (max-width: 768px) {
+          padding: 12px 20px;
+          font-size: 15px;
+        }
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+
+        &:disabled {
+          background: #ccc;
+          cursor: not-allowed;
+          transform: none;
+        }
+      }
+    }
+
+    .feedback-info {
+      padding: 25px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+
+      h3 {
+        margin: 0 0 15px 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1a2e;
+
+        @media (max-width: 768px) {
+          font-size: 16px;
+        }
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          padding: 10px 0;
+          font-size: 14px;
+          color: #555;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          strong {
+            color: #333;
+            font-weight: 600;
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+  }
+}

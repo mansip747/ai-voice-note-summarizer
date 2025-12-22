@@ -1,0 +1,149 @@
+// src/modules/Settings/Settings.scss
+.settings-page {
+  padding: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #ffffff;
+  min-height: 100vh;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  .settings-header {
+    margin-bottom: 30px;
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a1a2e;
+
+      @media (max-width: 768px) {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .settings-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #f0f0f0;
+
+      .card-icon {
+        font-size: 24px;
+        color: #667eea;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1a1a2e;
+      }
+    }
+
+    .setting-item {
+      margin-bottom: 20px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      &.toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        label {
+          margin-bottom: 0;
+        }
+
+        .toggle-label {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          .status-badge {
+            padding: 2px 8px;
+            background: #e6f7ff;
+            color: #1890ff;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+
+  .settings-actions {
+    margin-top: 30px;
+    text-align: center;
+
+    .save-btn {
+      padding: 12px 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+// Ant Design customization
+.ant-select {
+  .ant-select-selector {
+    border-radius: 8px !important;
+    border-color: #d9d9d9 !important;
+
+    &:hover {
+      border-color: #667eea !important;
+    }
+  }
+
+  &.ant-select-focused .ant-select-selector {
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1) !important;
+  }
+}
+
+.ant-switch {
+  &.ant-switch-checked {
+    background: #667eea !important;
+  }
+}

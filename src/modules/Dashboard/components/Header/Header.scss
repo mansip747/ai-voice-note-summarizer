@@ -1,0 +1,145 @@
+// src/modules/Dashboard/components/Header/Header.scss
+.dashboard-header {
+  margin-top:8px;
+  margin-bottom: 40px;
+  margin-left:8px;
+  margin-right:8px;
+  position: relative;
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease;
+
+  &.dragging {
+    border: 2px dashed #4a90e2;
+    background: #f0f7ff;
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  .header-text {
+    flex: 1;
+
+    .header-title {
+      margin: 0 0 16px 0;
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a1a2e;
+      line-height: 1.2;
+
+      @media (max-width: 768px) {
+        font-size: 24px;
+      }
+    }
+
+    .header-description {
+      margin: 0;
+      font-size: 16px;
+      color: #666;
+      line-height: 1.6;
+      max-width: 600px;
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .upload-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: white;
+    border: 2px solid #4a90e2;
+    border-radius: 10px;
+    color: #4a90e2;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+
+    &:hover:not(.disabled) {
+      background: #4a90e2;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+    }
+
+    &:active:not(.disabled) {
+      transform: translateY(0);
+    }
+
+    // ✅ NEW: Disabled state styling
+    &.disabled {
+      background: #f5f5f5;
+      border-color: #d0d0d0;
+      color: #999;
+      cursor: not-allowed;
+      opacity: 0.6;
+      
+      &:hover {
+        transform: none;
+        box-shadow: none;
+        background: #f5f5f5;
+        color: #999;
+      }
+
+      .upload-icon {
+        opacity: 0.5;
+      }
+    }
+
+    .upload-icon {
+      font-size: 20px;
+      transition: opacity 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .drag-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(74, 144, 226, 0.1);
+    backdrop-filter: blur(4px);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+
+    .drag-content {
+      text-align: center;
+      color: #fd0751;
+
+      svg {
+        margin-bottom: 12px;
+      }
+
+      p {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+      }
+    }
+  }
+}

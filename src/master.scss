@@ -1,0 +1,431 @@
+// FONTS
+
+@font-face {
+  font-family: "ArialLight";
+  src: url("./assets/fonts/arial/arial-light.ttf");
+}
+
+@font-face {
+  font-family: "ArialNormal";
+  src: url("./assets/fonts/arial/arial-normal.ttf");
+}
+
+@font-face {
+  font-family: "ArialMedium";
+  src: url("./assets/fonts/arial/arial-medium.ttf");
+}
+
+@font-face {
+  font-family: "ArialBold";
+  src: url("./assets/fonts/arial/arial-bold.ttf");
+}
+
+@font-face {
+  font-family: "ArialExtraBold";
+  src: url("./assets/fonts/arial/arial-extrabold.ttf");
+}
+
+//  ================== VARIABLES ==================
+
+// DEFAULT COLORS
+$white: #fff;
+$alabaster-white: #fafafa;
+$ash-white: #f8f8f8;
+$offwhite: #efefef;
+$white-smoke: #f5f5f5;
+$offwhite-blurred: rgba(239, 239, 239, 0.4);
+$black-blurred: rgba(0, 0, 0, 0.1);
+$black-light: rgba(0, 0, 0, 0.4);
+$light-black: #484848;
+$smoky-black: #0e0e0e;
+$black: #000;
+$grey: #e0e0e0;
+$lighter-grey: #f1f1f3;
+$yellowish-white: #e3e3e3;
+$light-grey: #e8e8e8;
+$dark-grey: #747474;
+$darkest-grey: #5a5a5a;
+$dark-text: #191919;
+$venetian-red: #8c1d40;
+$red: #cc2f2f;
+$light-red: #ffb6b6;
+$pink-red: #f7dddd;
+$error-color: #ff4d4f;
+$success-color: #78be20;
+$disabled-text: #878484;
+$greyish-text: #c8c8c8;
+$grey5: #d0d0d0;
+$shadowed-steel: #4b4b4b;
+
+// THEME COLORS
+$theme-color: #760033;
+$theme-color-light: #ffdbea;
+$theme-color-primary: #ffc627;
+$theme-color-primary-dark: #ffbc03;
+$border-color: #bfbfbf;
+$border-color-light: #d8d8d8;
+$border-color-hover: #928f8f;
+$audio-loader: #ffc626;
+
+// INPUT COLORS
+$input-border: #d9d9d9;
+$input-color: rgba(0, 0, 0, 0.88);
+$disabled-input-border: #bfbfbf;
+$disabled-input-color: rgba(0, 0, 0, 0.25);
+$disabled-input-bg: rgba(0, 0, 0, 0.04);
+$input-boxshadow: rgba(215, 215, 215, 0.1);
+
+// BUTTON COLORS
+$button-background: #760033;
+$button-hover-background: #5d0028;
+$button-disabled-background: rgba(118, 0, 51, 0.2);
+$button-color: #fff;
+$button-hover-color: #fff;
+$button-disabled-color: #fafafa;
+
+$button-secondary-background: #ffc627;
+$button-secondary-hover-background: #ffbc03;
+$button-secondary-disabled-background: rgba(255, 198, 39, 0.7);
+$button-secondary-color: #000;
+$button-secondary-hover-color: #000;
+$button-secondary-disabled-color: rgba(0, 0, 0, 0.7);
+
+// MENU COLORS
+$menu-hover-background-color: $grey5;
+$menu-hover-danger-color: #e60004;
+
+// CARD COLORS
+$card-hover-background-color: $light-grey;
+
+// FONTS
+$font-arial: "ArialNormal";
+$font-arial-light: "ArialLight";
+$font-arial-medium: "ArialMedium";
+$font-arial-bold: "ArialBold";
+$font-arial-extrabold: "ArialExtraBold";
+
+// RESPONSIVE BREAKPOINTS
+// If you update here, update constants.js as well
+$mobile: 320px;
+$small-device: 500px;
+$tablet: 768px;
+$small-desktop: 992px;
+$desktop: 1024px;
+$large-desktop: 1440px;
+
+//  ================== RESPONSIVE MIXINS ==================
+
+@mixin media-breakpoint-down($breakpoint) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-up($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin media-breakdown-up-down($breakpoint-up, $breakpoint-down) {
+  @media (min-width: $breakpoint-up) and (max-width: $breakpoint-down) {
+    @content;
+  }
+}
+
+@mixin media-mobile {
+  @media (max-width: $mobile) {
+    @content;
+  }
+}
+
+@mixin media-smalldevice {
+  @media (max-width: $small-device) {
+    @content;
+  }
+}
+
+@mixin media-tablet {
+  @media (max-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin media-small-desktop {
+  @media (max-width: $small-desktop) {
+    @content;
+  }
+}
+
+@mixin media-desktop {
+  @media (max-width: $desktop) {
+    @content;
+  }
+}
+
+@mixin media-large-desktop {
+  @media (max-width: $large-desktop) {
+    @content;
+  }
+}
+
+//  ================== STYLING MIXINS ==================
+
+@mixin custom-flex($align, $justify) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin custom-flex-column($align, $justify) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: column;
+}
+
+@mixin flex-start-column {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+@mixin flex-center-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+@mixin flex-end-column {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-direction: column;
+}
+
+@mixin flex-end-column-reverse {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-direction: column-reverse;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@mixin text-wrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin line-wrap($line) {
+  -webkit-line-clamp: $line;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+
+//  ================== GLOBAL CLASESS ==================
+
+// MARGINS
+
+.m-5 {
+  margin: 5px;
+}
+
+.m-10 {
+  margin: 10px;
+}
+
+.m-15 {
+  margin: 15px;
+}
+
+.m-20 {
+  margin: 20px;
+}
+
+.mt-5 {
+  margin-top: 5px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mr-15 {
+  margin-right: 15px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.mb-5 {
+  margin-bottom: 5px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.ml-5 {
+  margin-left: 5px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.ml-15 {
+  margin-left: 15px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+// PADDINGS
+
+.p-5 {
+  padding: 5px;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.p-15 {
+  padding: 15px;
+}
+
+.p-20 {
+  padding: 20px;
+}
+
+.pt-5 {
+  padding-top: 5px;
+}
+
+.pt-10 {
+  padding-top: 10px;
+}
+
+.pt-15 {
+  padding-top: 15px;
+}
+
+.pt-20 {
+  padding-top: 20px;
+}
+
+.pr-5 {
+  padding-right: 5px;
+}
+
+.pr-10 {
+  padding-right: 10px;
+}
+
+.pr-15 {
+  padding-right: 15px;
+}
+
+.pr-20 {
+  padding-right: 20px;
+}
+
+.pb-5 {
+  padding-bottom: 5px;
+}
+
+.pb-10 {
+  padding-bottom: 10px;
+}
+
+.pb-15 {
+  padding-bottom: 15px;
+}
+
+.pb-20 {
+  padding-bottom: 20px;
+}
+
+.pl-5 {
+  padding-left: 5px;
+}
+
+.pl-10 {
+  padding-left: 10px;
+}
+
+.pl-15 {
+  padding-left: 15px;
+}
+
+.pl-20 {
+  padding-left: 20px;
+}

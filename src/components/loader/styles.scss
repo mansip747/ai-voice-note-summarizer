@@ -1,0 +1,6 @@
+@use "../../master.scss";
+
+.loader-wrapper {
+    width: 100%;
+    @include master.flex-center();
+}

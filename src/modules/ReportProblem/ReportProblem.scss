@@ -1,0 +1,315 @@
+// src/modules/ReportProblem/ReportProblem.scss
+.report-problem-page {
+  padding: 30px;
+  background: #ffffff;
+  min-height: 100vh;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  .report-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .report-header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    .report-icon {
+      font-size: 48px;
+      color: #ff4d4f;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a1a2e;
+
+      @media (max-width: 768px) {
+        font-size: 24px;
+      }
+    }
+
+    p {
+      margin: 0;
+      font-size: 16px;
+      color: #666;
+    }
+  }
+
+  .report-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+    }
+
+    .form-section {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+
+      @media (max-width: 768px) {
+        padding: 20px;
+      }
+
+      .form-item {
+        margin-bottom: 25px;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+
+        label {
+          display: block;
+          margin-bottom: 10px;
+          font-size: 15px;
+          font-weight: 600;
+          color: #333;
+
+          .required {
+            color: #ff4d4f;
+            margin-left: 4px;
+          }
+
+          .optional {
+            color: #999;
+            font-weight: 400;
+            font-size: 13px;
+            margin-left: 4px;
+          }
+        }
+
+        .ant-select {
+          width: 100%;
+
+          .ant-select-selector {
+            border-radius: 8px !important;
+            border: 1px solid #d9d9d9 !important;
+            transition: all 0.3s ease;
+            min-height: 42px;
+
+            &:hover {
+              border-color: #667eea !important;
+            }
+          }
+
+          &.ant-select-focused .ant-select-selector {
+            border-color: #667eea !important;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1) !important;
+          }
+        }
+
+        .ant-input-textarea {
+          .ant-input {
+            border-radius: 8px;
+            border: 1px solid #d9d9d9;
+            font-size: 14px;
+            padding: 12px;
+            transition: all 0.3s ease;
+            line-height: 1.6;
+
+            &:hover {
+              border-color: #667eea;
+            }
+
+            &:focus {
+              border-color: #667eea;
+              box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+            }
+
+            &::placeholder {
+              color: #bbb;
+            }
+          }
+        }
+
+        .ant-input-textarea-show-count::after {
+          color: #999;
+          font-size: 12px;
+        }
+
+        .ant-upload {
+          .ant-btn {
+            border-radius: 8px;
+            border: 1px solid #d9d9d9;
+            height: 42px;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+
+            &:hover {
+              border-color: #667eea;
+              color: #667eea;
+            }
+          }
+        }
+
+        .ant-upload-list {
+          margin-top: 12px;
+
+          .ant-upload-list-item {
+            border-radius: 6px;
+            border: 1px solid #e8e8e8;
+            padding: 8px 12px;
+            margin-top: 8px;
+
+            &:hover {
+              background: #fafafa;
+            }
+          }
+        }
+
+        .upload-hint {
+          margin-top: 8px;
+          font-size: 12px;
+          color: #999;
+          line-height: 1.5;
+        }
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #ff4d4f 0%, #ff7875 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 30px;
+
+        @media (max-width: 768px) {
+          padding: 12px 20px;
+          font-size: 15px;
+        }
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(255, 77, 79, 0.3);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+
+        &:disabled {
+          background: #ccc;
+          cursor: not-allowed;
+          transform: none;
+        }
+      }
+    }
+
+    .info-card {
+      background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+      border-radius: 16px;
+      padding: 25px;
+      border-left: 4px solid #faad14;
+      height: fit-content;
+
+      @media (max-width: 768px) {
+        padding: 20px;
+      }
+
+      h3 {
+        margin: 0 0 15px 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1a2e;
+
+        @media (max-width: 768px) {
+          font-size: 16px;
+        }
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 25px 0;
+
+        li {
+          padding: 8px 0;
+          font-size: 14px;
+          color: #555;
+          line-height: 1.6;
+
+          &::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #faad14;
+            border-radius: 50%;
+            margin-right: 10px;
+            vertical-align: middle;
+          }
+        }
+      }
+
+      .quick-links {
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        padding-top: 20px;
+
+        h4 {
+          margin: 0 0 12px 0;
+          font-size: 16px;
+          font-weight: 600;
+          color: #1a1a2e;
+        }
+
+        a {
+          display: block;
+          padding: 10px 12px;
+          margin-bottom: 8px;
+          background: white;
+          border-radius: 8px;
+          color: #555;
+          text-decoration: none;
+          font-size: 14px;
+          transition: all 0.3s ease;
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+
+          &:hover {
+            color: #667eea;
+            background: #f5f7ff;
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+          }
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .report-footer {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f5f7fa;
+    border-radius: 12px;
+    text-align: center;
+
+    p {
+      margin: 0;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+
+      strong {
+        color: #333;
+        font-weight: 600;
+      }
+    }
+  }
+}

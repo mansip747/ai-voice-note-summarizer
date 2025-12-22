@@ -1,0 +1,317 @@
+// src/modules/Dashboard/components/PostRecordingView/PostRecordingView.scss
+.post-recording-view {
+  // margin-top:"80px";
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background: #ffffff;
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+
+  .post-recording-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    max-width: 600px;
+    width: 100%;
+
+    @media (max-width: 768px) {
+      gap: 30px;
+    }
+
+    // Audio Circle (Still)
+    .audio-circle-still {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+      position: relative;
+
+      @media (max-width: 768px) {
+        width: 250px;
+        height: 250px;
+      }
+
+      @media (max-width: 480px) {
+        width: 200px;
+        height: 200px;
+      }
+
+      .wave-bars {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 80px;
+
+        @media (max-width: 768px) {
+          gap: 6px;
+          height: 60px;
+        }
+
+        .bar {
+          width: 8px;
+          background: white;
+          border-radius: 4px;
+          opacity: 0.7;
+          transition: height 0.3s ease;
+
+          @media (max-width: 768px) {
+            width: 6px;
+          }
+
+          &.bar-1 { 
+            height: 30px;
+            @media (max-width: 768px) { height: 24px; }
+          }
+          &.bar-2 { 
+            height: 50px;
+            @media (max-width: 768px) { height: 40px; }
+          }
+          &.bar-3 { 
+            height: 70px;
+            @media (max-width: 768px) { height: 56px; }
+          }
+          &.bar-4 { 
+            height: 50px;
+            @media (max-width: 768px) { height: 40px; }
+          }
+          &.bar-5 { 
+            height: 30px;
+            @media (max-width: 768px) { height: 24px; }
+          }
+        }
+      }
+
+      .circle-label {
+        margin-top: 20px;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+
+        @media (max-width: 768px) {
+          font-size: 14px;
+          margin-top: 15px;
+        }
+      }
+    }
+
+    // Recording Summary
+    .recording-summary {
+      display: flex;
+      gap: 40px;
+      padding: 20px 40px;
+      background: #f9f9f9;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+
+      @media (max-width: 768px) {
+        gap: 30px;
+        padding: 15px 30px;
+      }
+
+      @media (max-width: 480px) {
+        gap: 20px;
+        padding: 12px 20px;
+      }
+
+      .summary-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+
+        .label {
+          font-size: 13px;
+          color: #666;
+          font-weight: 500;
+
+          @media (max-width: 768px) {
+            font-size: 12px;
+          }
+        }
+
+        .value {
+          font-size: 20px;
+          color: #1a1a2e;
+          font-weight: 700;
+
+          @media (max-width: 768px) {
+            font-size: 18px;
+          }
+
+          @media (max-width: 480px) {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+
+    // Action Buttons
+    .post-recording-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+
+      @media (max-width: 768px) {
+        gap: 12px;
+      }
+
+      .action-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 16px 32px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+        @media (max-width: 768px) {
+          padding: 14px 24px;
+          font-size: 15px;
+        }
+
+        @media (max-width: 480px) {
+          padding: 12px 20px;
+          font-size: 14px;
+          gap: 10px;
+        }
+
+        .btn-icon {
+          font-size: 20px;
+
+          @media (max-width: 768px) {
+            font-size: 18px;
+          }
+        }
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+
+        // Start New Recording Button
+        &.new-recording-btn {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+
+          &:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #63408a 100%);
+          }
+        }
+
+        // Show Transcript Button
+        &.show-transcript-btn {
+          background: white;
+          color: #667eea;
+          border: 2px solid #667eea;
+
+          &:hover {
+            background: #667eea;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.post-recording-view {
+  animation: fadeIn 0.5s ease-out;
+}
+
+// Responsive adjustments for very small screens
+@media (max-width: 360px) {
+  .post-recording-view {
+    padding: 15px;
+
+    .post-recording-content {
+      gap: 25px;
+
+      .audio-circle-still {
+        width: 180px;
+        height: 180px;
+
+        .wave-bars {
+          height: 50px;
+
+          .bar {
+            width: 5px;
+
+            &.bar-1 { height: 20px; }
+            &.bar-2 { height: 32px; }
+            &.bar-3 { height: 44px; }
+            &.bar-4 { height: 32px; }
+            &.bar-5 { height: 20px; }
+          }
+        }
+
+        .circle-label {
+          font-size: 13px;
+          margin-top: 12px;
+        }
+      }
+
+      .recording-summary {
+        gap: 15px;
+        padding: 10px 15px;
+
+        .summary-item {
+          .label {
+            font-size: 11px;
+          }
+
+          .value {
+            font-size: 14px;
+          }
+        }
+      }
+
+      .post-recording-actions {
+        gap: 10px;
+
+        .action-btn {
+          padding: 10px 16px;
+          font-size: 13px;
+
+          .btn-icon {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}

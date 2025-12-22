@@ -1,0 +1,21 @@
+// src/components/layout/MainLayout/MainLayout.scss
+.main-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  
+
+  .main-content {
+    flex: 1;
+    margin-left: 250px; // Sidebar width
+      background: #ffffff; 
+    // background: #f5f7fa;
+    overflow-y: auto;
+    transition: margin-left 0.3s ease;
+
+    // When sidebar is collapsed
+    .sidebar.collapsed ~ & {
+      margin-left: 70px;
+    }
+  }
+}

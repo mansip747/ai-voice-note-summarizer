@@ -1,0 +1,89 @@
+@use "../../../master.scss";
+
+.custom-btn {
+  position: relative;
+  border: none;
+  background: master.$button-background;
+  color: master.$button-color;
+  padding: 8px 22px;
+  min-width: 110px;
+  font-size: 14px;
+  border-radius: 8px;
+  font-weight: 400;
+  transition: 0.4s all;
+  cursor: pointer;
+
+  &:hover {
+    background: master.$button-hover-background;
+    border-color: master.$button-hover-background;
+    color: master.$button-hover-color;
+  }
+
+  &:disabled {
+    background: master.$button-disabled-background !important;
+    border-color: master.$button-disabled-background;
+    color: master.$button-disabled-color !important;
+    cursor: auto;
+  }
+
+  svg {
+    margin-right: 5px;
+  }
+
+  &.bold {
+    font-family: master.$font-arial-bold;
+  }
+
+  &.secondary {
+    border-color: master.$button-secondary-background;
+    background: master.$button-secondary-background;
+    color: master.$button-secondary-color;
+
+    &:hover {
+      border-color: master.$button-secondary-hover-background;
+      background: master.$button-secondary-hover-background;
+      color: master.$button-secondary-hover-color;
+    }
+
+    &:disabled {
+      border-color: master.$button-secondary-disabled-background !important;
+      background: master.$button-secondary-disabled-background !important;
+      color: master.$button-secondary-disabled-color !important;
+    }
+  }
+
+  &.bordered {
+    background: transparent;
+    border: 1px solid master.$button-background;
+    color: master.$button-background;
+
+    * {
+      color: master.$button-background;
+    }
+
+    &:hover * {
+      color: master.$button-hover-background;
+    }
+
+    &:disabled * {
+      color: master.$button-disabled-background;
+    }
+
+    &.secondary {
+      border-color: master.$button-secondary-background;
+      color: master.$button-secondary-color;
+
+      &:hover * {
+        color: master.$button-secondary-hover-color;
+      }
+
+      &:disabled * {
+        color: master.$button-secondary-disabled-color;
+      }
+    }
+  }
+
+  &.btn-pill {
+    border-radius: 500px;
+  }
+}
