@@ -14,16 +14,11 @@
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Screenshots](#screenshots)
-- [API Configuration](#api-configuration)
-- [Contributing](#contributing)
-- [License](#license)
+- [Demo](#demo)
 
 ---
 
-## 🎯 Overview
+## 🎯 Overview <a id="overview"></a>
 
 **Quint** is a modern web application built with React that enables users to record audio, generate real-time transcriptions, and leverage AI to create summaries and extract actionable items. Perfect for meetings, lectures, interviews, and brainstorming sessions.
 
@@ -37,7 +32,7 @@
 
 ---
 
-## ✨ Features
+## ✨ Features <a id="features"></a>
 
 ### 🎙️ Recording
 - Real-time audio visualization
@@ -73,7 +68,7 @@
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack <a id="tech-stack"></a>
 
 ### Frontend
 - **React 18** - UI framework
@@ -97,11 +92,9 @@
 
 ---
 
-## 📦 Installation
+## 📦 Installation <a id="installation"></a>
 
 ### Prerequisites
 ```bash
 node >= 16.x
-npm >= 8.x
-# or
 yarn >= 1.22.x
