@@ -397,17 +397,22 @@
       background: #16213e;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
+      gap: 17px;
       justify-content: center;
 
       @media (max-width: 768px) {
         padding: 15px;
+        flex-direction: column;
+        gap: 12px;
       }
 
       @media (max-width: 480px) {
         padding: 12px;
+        gap: 10px;
       }
 
-      .new-recording-btn {
+      .new-recording-btn,
+      .action-items-btn {
         padding: 14px 32px;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;

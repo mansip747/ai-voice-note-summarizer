@@ -98,6 +98,19 @@ const ActionItemDetail = ({ recordingId }) => {
       hasStructure: false,
     };
 
+    // Helper function to clean extracted text
+    const cleanText = (text) => {
+      return text
+        .trim()
+        .replace(/^[.\-•*\s]+/, "") // Remove leading punctuation
+        .replace(/\s+/g, " ") // Normalize whitespace
+        .replace(/\s+\./g, ".") // Remove space before period
+        .replace(/\.{2,}/g, ".") // Remove double periods
+        .replace(/\.(\S)/g, ". $1") // Add space after period
+        .replace(/\s{2,}/g, " ") // Collapse multiple spaces
+        .trim();
+    };
+
     // Extract Context - AS-IS
     const contextMatch = response.match(
       /Context:(.+?)(?=Next Steps:|Timeline:|$)/is
@@ -110,7 +123,7 @@ const ActionItemDetail = ({ recordingId }) => {
     // Extract Next Steps - AS-IS
     const stepsMatch = response.match(/Next Steps:(.+?)(?=Timeline:|$)/is);
     if (stepsMatch) {
-      sections.nextSteps = stepsMatch[1].trim();
+      sections.nextSteps = cleanText(stepsMatch[1]);
       sections.hasStructure = true;
     }
 
@@ -265,7 +278,7 @@ Context: Briefly explain the context and background of this action item.
 
 Next Steps: List specific actionable steps to complete this task.
 
-Timeline: Provide a realistic timeline for completion.
+Timeline: Provide a realistic timeline for completion, and provide the time frame in words like - four, five, six.
 
 Make it professional and actionable.`;
     }
@@ -284,7 +297,7 @@ Context: Explain the purpose and background of this meeting/call.
 
 Next Steps: List specific steps to schedule and prepare for this meeting.
 
-Timeline: Suggest timeframes for scheduling and any preparation needed.
+Timeline: Suggest timeframes for scheduling and any preparation needed, and provide the time frame in words like - four, five, six.
 
 Be clear and professional.`;
     }
@@ -298,7 +311,7 @@ Context: Explain the background and importance of this action.
 
 Next Steps: List clear, actionable steps to complete this task.
 
-Timeline: Provide estimated timeframes for each step.
+Timeline: Provide estimated timeframes for each step, and provide the time frame in words like - four, five, six.
 
 Be specific and actionable.`;
   };
@@ -322,7 +335,7 @@ Be specific and actionable.`;
       await generatePrompt(prompt);
     } catch (error) {
       console.error("Error generating follow-up:", error);
-      toast.error("Failed to generate follow-up response");
+      toast.error("Failed to fetch Next Steps, try again shortly");
       setActiveActionItemId(null);
     }
   };
@@ -445,7 +458,6 @@ Be specific and actionable.`;
             </div>
           </div>
         )}
-
 
         {/* Timeline Section */}
         {parsed.timeline && (
@@ -573,6 +585,8 @@ Be specific and actionable.`;
                         size="small"
                       >
                         <div className="action-item-content">
+                          <Text className="action-item-text">{item.text}</Text>
+
                           {/* Action Buttons */}
                           <div className="action-buttons">
                             {isGenerating ? (
@@ -604,7 +618,7 @@ Be specific and actionable.`;
                                 icon={<ReloadOutlined />}
                                 onClick={() => generateFollowUp(item)}
                               >
-                                Generate Follow-Up
+                                Generate Next Steps
                               </Button>
                             )}
                           </div>

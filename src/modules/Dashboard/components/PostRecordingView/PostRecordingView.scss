@@ -70,25 +70,35 @@
             width: 6px;
           }
 
-          &.bar-1 { 
+          &.bar-1 {
             height: 30px;
-            @media (max-width: 768px) { height: 24px; }
+            @media (max-width: 768px) {
+              height: 24px;
+            }
           }
-          &.bar-2 { 
+          &.bar-2 {
             height: 50px;
-            @media (max-width: 768px) { height: 40px; }
+            @media (max-width: 768px) {
+              height: 40px;
+            }
           }
-          &.bar-3 { 
+          &.bar-3 {
             height: 70px;
-            @media (max-width: 768px) { height: 56px; }
+            @media (max-width: 768px) {
+              height: 56px;
+            }
           }
-          &.bar-4 { 
+          &.bar-4 {
             height: 50px;
-            @media (max-width: 768px) { height: 40px; }
+            @media (max-width: 768px) {
+              height: 40px;
+            }
           }
-          &.bar-5 { 
+          &.bar-5 {
             height: 30px;
-            @media (max-width: 768px) { height: 24px; }
+            @media (max-width: 768px) {
+              height: 24px;
+            }
           }
         }
       }
@@ -221,6 +231,16 @@
           }
         }
 
+        // Check Action Items Button
+        &.action-items-btn {
+          background: linear-gradient(135deg, #52c41a 0%, #389e0d 100%);
+          color: white;
+
+          &:hover {
+            background: linear-gradient(135deg, #389e0d 0%, #237804 100%);
+          }
+        }
+
         // Show Transcript Button
         &.show-transcript-btn {
           background: white;
@@ -271,11 +291,21 @@
           .bar {
             width: 5px;
 
-            &.bar-1 { height: 20px; }
-            &.bar-2 { height: 32px; }
-            &.bar-3 { height: 44px; }
-            &.bar-4 { height: 32px; }
-            &.bar-5 { height: 20px; }
+            &.bar-1 {
+              height: 20px;
+            }
+            &.bar-2 {
+              height: 32px;
+            }
+            &.bar-3 {
+              height: 44px;
+            }
+            &.bar-4 {
+              height: 32px;
+            }
+            &.bar-5 {
+              height: 20px;
+            }
           }
         }
 
@@ -309,6 +339,12 @@
 
           .btn-icon {
             font-size: 16px;
+          }
+
+          // small screen adjustments for Action Items button
+          &.action-items-btn {
+            padding: 10px 16px;
+            font-size: 13px;
           }
         }
       }

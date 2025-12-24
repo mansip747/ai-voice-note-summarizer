@@ -332,6 +332,7 @@ const Dashboard = () => {
             onShowTranscript={handleShowTranscriptAndSummary}
             duration={formatDuration(recordingDuration)}
             wordCount={getWordCount(finalTranscript)}
+            recordingId={savedRecordingId}
           />
         )}
 

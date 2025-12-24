@@ -1,13 +1,25 @@
 // src/modules/Dashboard/components/PostRecordingView/PostRecordingView.jsx
 import React from "react";
 import "./PostRecordingView.scss";
+import { useNavigate } from "react-router-dom";
 
 const PostRecordingView = ({
   onStartNewRecording,
   onShowTranscript,
   duration,
   wordCount,
+  recordingId,
 }) => {
+  const navigate = useNavigate();
+
+  const handleCheckActionItems = () => {
+    if (recordingId) {
+      navigate(`/action-items/${recordingId}`);
+    } else {
+      console.error("No recording ID available");
+    }
+  };
+
   return (
     <div className="post-recording-view">
       <div className="post-recording-content">
@@ -42,6 +54,14 @@ const PostRecordingView = ({
           >
             <span className="btn-icon">🎤</span>
             Start New Recording
+          </button>
+
+          <button
+            className="action-btn action-items-btn"
+            onClick={handleCheckActionItems}
+          >
+            <span className="btn-icon">✅</span>
+            Check Action Items
           </button>
 
           <button
