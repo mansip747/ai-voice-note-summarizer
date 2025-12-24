@@ -195,16 +195,20 @@ textarea,
       }
     }
 
-    &.ant-select-focused:where(.css-dev-only-do-not-override-1adbn6x).ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(
-        .ant-pagination-size-changer
-      )
+    &.ant-select-focused:where(
+        .css-dev-only-do-not-override-1adbn6x
+      ).ant-select:not(.ant-select-disabled):not(
+        .ant-select-customize-input
+      ):not(.ant-pagination-size-changer)
       .ant-select-selector,
     &:not(.ant-select-disabled) .ant-select-selector:hover,
     &:not(.ant-select-disabled) .ant-select-selector:focus {
       border-color: master.$theme-color !important;
       box-shadow: none;
     }
-    &.ant-select-focused:where(.css-dev-only-do-not-override-f7vrd6).ant-select-outlined:not(.ant-select-disabled):not(
+    &.ant-select-focused:where(
+        .css-dev-only-do-not-override-f7vrd6
+      ).ant-select-outlined:not(.ant-select-disabled):not(
         .ant-select-customize-input
       ):not(.ant-pagination-size-changer)
       .ant-select-selector {
@@ -421,12 +425,15 @@ textarea,
       background: master.$theme-color-light;
     }
 
-    .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+    .ant-picker-cell-in-view.ant-picker-cell-today
+      .ant-picker-cell-inner::before {
       border-color: master.$theme-color !important;
     }
 
-    .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-start .ant-picker-cell-inner,
-    .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-end .ant-picker-cell-inner {
+    .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-start
+      .ant-picker-cell-inner,
+    .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-end
+      .ant-picker-cell-inner {
       color: master.$white;
 
       &::after {
@@ -442,8 +449,12 @@ textarea,
       }
     }
 
-    .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-range-start-single)::before,
-    .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-range-end-single)::before {
+    .ant-picker-cell-in-view.ant-picker-cell-range-start:not(
+        .ant-picker-cell-range-start-single
+      )::before,
+    .ant-picker-cell-in-view.ant-picker-cell-range-end:not(
+        .ant-picker-cell-range-end-single
+      )::before {
       background: master.$theme-color-light;
     }
 

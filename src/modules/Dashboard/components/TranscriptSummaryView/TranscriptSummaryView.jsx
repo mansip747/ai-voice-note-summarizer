@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import useAISummary from "../../../../hooks/useAISummary";
 import { RecordingService } from "../../../../services/recordingDB";
 import "./TranscriptSummaryView.scss";
+import { useNavigate } from "react-router-dom";
 
 const TranscriptSummaryView = ({
   transcript,
@@ -23,9 +24,19 @@ const TranscriptSummaryView = ({
     resetSummary,
   } = useAISummary();
 
+  const navigate = useNavigate();
+
   const transcriptRef = useRef(transcript);
   const recordingIdRef = useRef(recordingId);
   const generationTriggeredRef = useRef(false);
+
+  const handleCheckActionItems = () => {
+    if (recordingId) {
+      navigate(`/action-items/${recordingId}`);
+    } else {
+      console.error("No recording ID available");
+    }
+  };
 
   useEffect(() => {
     console.log("🔵 TranscriptSummaryView mounted");
@@ -280,6 +291,11 @@ ${aiSummary || "No summary generated yet."}
         <div className="transcript-footer">
           <button className="new-recording-btn" onClick={onStartNewRecording}>
             🎤 Start New Recording
+          </button>
+
+          {/* NEW: Check Action Items Button */}
+          <button className="action-items-btn" onClick={handleCheckActionItems}>
+            ✅ Check Action Items
           </button>
         </div>
       </div>
