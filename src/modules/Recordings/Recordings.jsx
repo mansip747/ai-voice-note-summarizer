@@ -4,11 +4,11 @@ import {
   Table,
   Button,
   Space,
-  Modal,
   Typography,
   Input,
   Popconfirm,
   Tag,
+  Spin,
 } from "antd";
 import {
   PlayCircleOutlined,
@@ -17,10 +17,17 @@ import {
   EditOutlined,
   FileTextOutlined,
   ClockCircleOutlined,
+  FolderOpenOutlined,
+  CloseOutlined,
+  CopyOutlined,
+  ExportOutlined,
+  ReloadOutlined,
+  SaveOutlined,
 } from "@ant-design/icons";
 import { RecordingService } from "../../services/recordingDB";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
+import useAISummary from "../../hooks/useAISummary";
 import "./Recordings.scss";
 
 const { Title, Paragraph } = Typography;
@@ -31,14 +38,33 @@ const Recordings = () => {
   const [recordings, setRecordings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedRecording, setSelectedRecording] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isViewOpen, setIsViewOpen] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState("");
+
+  // AI Summary hook
+  const {
+    summary: aiSummary,
+    isGenerating,
+    error: summaryError,
+    generateSummary,
+    loadSummary,
+    stopGeneration,
+    resetSummary,
+  } = useAISummary();
 
   // Load recordings on mount
   useEffect(() => {
     loadRecordings();
   }, []);
+
+  // Load summary when recording is opened
+  useEffect(() => {
+    if (selectedRecording && isViewOpen) {
+      console.log("📖 Loading summary for recording:", selectedRecording.id);
+      loadExistingSummary(selectedRecording.id);
+    }
+  }, [selectedRecording, isViewOpen]);
 
   // Load all recordings from IndexedDB
   const loadRecordings = async () => {
@@ -53,6 +79,15 @@ const Recordings = () => {
     }
   };
 
+  // Load existing summary from database
+  const loadExistingSummary = async (recordingId) => {
+    try {
+      await loadSummary(recordingId);
+    } catch (error) {
+      console.error("Error loading summary:", error);
+    }
+  };
+
   // Format duration (seconds to MM:SS)
   const formatDuration = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -60,27 +95,43 @@ const Recordings = () => {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
+  // Handle open recording (new full-screen view)
+  const handleOpenRecording = (record) => {
+    console.log("📂 Opening recording:", record.id);
+    setSelectedRecording(record);
+    setEditedTitle(record.title);
+    setIsViewOpen(true);
+    setIsEditingTitle(false);
+    resetSummary(); // Clear previous summary
+  };
+
+  // Handle close view
+  const handleCloseView = () => {
+    setIsViewOpen(false);
+    setSelectedRecording(null);
+    setIsEditingTitle(false);
+    resetSummary();
+  };
+
   // Handle play recording
-  const handlePlay = (record) => {
-    if (!record.audioBlob) {
+  const handlePlay = () => {
+    if (!selectedRecording?.audioBlob) {
       toast.error("No audio data available");
       return;
     }
 
     try {
-      const url = URL.createObjectURL(record.audioBlob);
+      const url = URL.createObjectURL(selectedRecording.audioBlob);
       const audio = new Audio(url);
 
       audio.play();
-      toast.info(`▶️ Playing: ${record.title}`);
+      toast.info(`▶️ Playing: ${selectedRecording.title}`);
 
-      // Clean up URL after playback ends
       audio.onended = () => {
         URL.revokeObjectURL(url);
         toast.success("Playback finished");
       };
 
-      // Handle errors
       audio.onerror = () => {
         URL.revokeObjectURL(url);
         toast.error("Error playing audio");
@@ -91,33 +142,124 @@ const Recordings = () => {
     }
   };
 
+  // Handle copy transcript
+  const handleCopyTranscript = () => {
+    if (!selectedRecording?.transcript) {
+      toast.error("No transcript to copy");
+      return;
+    }
+
+    navigator.clipboard.writeText(selectedRecording.transcript);
+    toast.success("📋 Transcript copied to clipboard!");
+  };
+
+  // Handle copy ai summary
+  const handleCopyAiSummary = () => {
+    if (!selectedRecording?.transcript) {
+      toast.error("No Summary to copy");
+      return;
+    }
+
+    navigator.clipboard.writeText(aiSummary);
+    toast.success("📋 AI Summary copied to clipboard!");
+  };
+
   // Handle download recording
-  const handleDownload = (record) => {
+  const handleDownload = () => {
     try {
-      RecordingService.downloadRecording(record);
+      RecordingService.downloadRecording(selectedRecording);
       toast.success("⬇️ Download started");
     } catch (error) {
       toast.error("Failed to download recording");
+      console.log(error);
+    }
+  };
+
+  // Handle export as text
+  const handleExport = () => {
+    if (!selectedRecording) {
+      toast.error("No recording selected");
+      return;
+    }
+
+    try {
+      RecordingService.exportRecordingAsText(selectedRecording);
+      toast.success("📤 Recording exported!");
+    } catch (error) {
+      toast.error("Failed to export recording");
     }
   };
 
   // Handle delete recording
-  const handleDelete = async (id) => {
-    try {
-      await RecordingService.deleteRecording(id);
-      toast.success("🗑️ Recording deleted");
-      loadRecordings(); // Reload the list
-    } catch (error) {
-      toast.error("Failed to delete recording");
-    }
-  };
+  const handleDelete = async () => {
+    console.log("=== DELETE OPERATION START ===");
+    console.log("1. selectedRecording:", selectedRecording);
+    console.log("2. selectedRecording.id:", selectedRecording?.id);
+    console.log("3. Type of ID:", typeof selectedRecording?.id);
 
-  // Handle view transcript
-  const handleViewTranscript = (record) => {
-    setSelectedRecording(record);
-    setEditedTitle(record.title);
-    setIsModalVisible(true);
-    setIsEditingTitle(false);
+    if (!selectedRecording?.id) {
+      console.error("❌ No recording ID!");
+      toast.error("Invalid recording ID");
+      return;
+    }
+
+    const recordingId = selectedRecording.id;
+    console.log("4. Recording ID to delete:", recordingId);
+
+    try {
+      // Step 1: Check if recording exists
+      console.log("5. Fetching recording from DB...");
+      const recordingBefore = await RecordingService.getRecording(recordingId);
+      console.log("6. Recording found:", recordingBefore);
+
+      if (!recordingBefore) {
+        console.error("❌ Recording not found in DB!");
+        toast.error("Recording not found");
+        handleCloseView();
+        await loadRecordings();
+        return;
+      }
+
+      // Step 2: Delete
+      console.log("7. Calling deleteRecording...");
+      const result = await RecordingService.deleteRecording(recordingId);
+      console.log("8. Delete result:", result);
+
+      // Step 3: Verify deletion
+      console.log("9. Verifying deletion...");
+      const recordingAfter = await RecordingService.getRecording(recordingId);
+      console.log("10. Recording after delete:", recordingAfter);
+
+      if (recordingAfter) {
+        console.error("❌ Recording still exists after delete!");
+        toast.error("Delete failed - recording still exists");
+        return;
+      }
+
+      // Success
+      console.log("✅ Delete successful!");
+      toast.success(
+        `Recording "${selectedRecording.title}" deleted successfully`
+      );
+
+      // Close view
+      handleCloseView();
+
+      // Reload recordings
+      await loadRecordings();
+      console.log("=== DELETE OPERATION COMPLETE ===");
+    } catch (error) {
+      console.error("=== DELETE ERROR ===");
+      console.error("Error object:", error);
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+
+      toast.error(`Delete failed: ${error.message}`);
+
+      // Try to recover by reloading
+      handleCloseView();
+      await loadRecordings();
+    }
   };
 
   // Handle save title
@@ -140,13 +282,42 @@ const Recordings = () => {
     }
   };
 
-  // Table columns configuration
+  // Handle regenerate summary
+  const handleRegenerateSummary = () => {
+    if (!selectedRecording?.transcript) {
+      toast.error("No transcript available");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "This will regenerate the AI summary. Continue?"
+    );
+
+    if (confirmed) {
+      resetSummary();
+      toast.info("Regenerating AI summary...");
+      generateSummary(selectedRecording.transcript, selectedRecording.id);
+    }
+  };
+
+  // Handle generate summary (if none exists)
+  const handleGenerateSummary = () => {
+    if (!selectedRecording?.transcript) {
+      toast.error("No transcript available");
+      return;
+    }
+
+    toast.info("Generating AI summary...");
+    generateSummary(selectedRecording.transcript, selectedRecording.id);
+  };
+
+  // Table columns - Only show "Open" button
   const columns = [
     {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      width: "30%",
+      width: "35%",
       sorter: (a, b) => a.title.localeCompare(b.title),
       sortDirections: ["ascend", "descend", "ascend"],
       render: (text, record) => (
@@ -165,10 +336,10 @@ const Recordings = () => {
       title: "Date & Time",
       dataIndex: "timestamp",
       key: "timestamp",
-      width: "20%",
+      width: "25%",
       sorter: (a, b) => new Date(a.timestamp) - new Date(b.timestamp),
       sortDirections: ["ascend", "descend", "ascend"],
-      defaultSortOrder: "descend", // Latest first by default
+      defaultSortOrder: "descend",
       render: (timestamp) => (
         <div>
           <div>{dayjs(timestamp).format("MMM DD, YYYY")}</div>
@@ -177,92 +348,222 @@ const Recordings = () => {
       ),
     },
     {
-      title: "Duration",
-      dataIndex: "duration",
-      key: "duration",
-      width: "12%",
-      sorter: (a, b) => a.duration - b.duration,
-      sortDirections: ["ascend", "descend", "ascend"],
-      render: (duration) => (
-        <Tag color="blue" icon={<ClockCircleOutlined />}>
-          {formatDuration(duration)}
-        </Tag>
-      ),
-    },
-    {
-      title: "Words",
-      dataIndex: "words",
-      key: "words",
-      width: "10%",
-      sorter: (a, b) => a.words - b.words,
-      sortDirections: ["ascend", "descend", "ascend"],
-      render: (words) => <Tag color="green">{words} words</Tag>,
-    },
-    {
       title: "Transcript Preview",
       dataIndex: "transcript",
       key: "transcript",
-      width: "23%",
+      width: "30%",
       ellipsis: true,
-      sorter: (a, b) => {
-        const textA = a.transcript || "";
-        const textB = b.transcript || "";
-        return textA.localeCompare(textB);
-      },
-      sortDirections: ["ascend", "descend", "ascend"],
       render: (text) => (
         <div className="transcript-preview">
           {text
-            ? text.substring(0, 80) + (text.length > 80 ? "..." : "")
+            ? text.substring(0, 100) + (text.length > 100 ? "..." : "")
             : "No transcript"}
         </div>
       ),
     },
     {
-      title: "Actions",
-      key: "actions",
-      width: "15%",
+      title: "Action",
+      key: "action",
+      width: "10%",
       fixed: "right",
       render: (_, record) => (
-        <Space size="small" wrap>
-          <Button
-            type="primary"
-            size="small"
-            icon={<PlayCircleOutlined />}
-            onClick={() => handlePlay(record)}
-            title="Play Recording"
-          />
-          <Button
-            size="small"
-            icon={<FileTextOutlined />}
-            onClick={() => handleViewTranscript(record)}
-            title="View Transcript"
-          />
-          <Button
-            size="small"
-            icon={<DownloadOutlined />}
-            onClick={() => handleDownload(record)}
-            title="Download Audio"
-          />
-          <Popconfirm
-            title="Delete this recording?"
-            description="This action cannot be undone."
-            onConfirm={() => handleDelete(record.id)}
-            okText="Yes"
-            cancelText="No"
-            okButtonProps={{ danger: true }}
-          >
-            <Button
-              size="small"
-              danger
-              icon={<DeleteOutlined />}
-              title="Delete"
-            />
-          </Popconfirm>
-        </Space>
+        <Button
+          type="primary"
+          icon={<FolderOpenOutlined />}
+          onClick={() => handleOpenRecording(record)}
+          size="middle"
+        >
+          Open
+        </Button>
       ),
     },
   ];
+
+  // Render full-screen recording view
+  const renderRecordingView = () => {
+    if (!selectedRecording) return null;
+
+    return (
+      <div className="recording-view-overlay">
+        <div className="recording-view-container">
+          {/* Header */}
+          <div className="recording-header">
+            <div className="title-section">
+              {isEditingTitle ? (
+                <div className="title-edit">
+                  <Input
+                    value={editedTitle}
+                    onChange={(e) => setEditedTitle(e.target.value)}
+                    onPressEnter={handleSaveTitle}
+                    autoFocus
+                    placeholder="Enter recording title"
+                    size="large"
+                  />
+                  <Button
+                    type="primary"
+                    icon={<SaveOutlined />}
+                    onClick={handleSaveTitle}
+                    size="large"
+                  >
+                    Save
+                  </Button>
+                </div>
+              ) : (
+                <div className="title-display">
+                  <h1>{selectedRecording.title}</h1>
+                  <Button
+                    type="link"
+                    icon={<EditOutlined />}
+                    onClick={() => setIsEditingTitle(true)}
+                  >
+                    Edit Title
+                  </Button>
+                </div>
+              )}
+              <div className="recording-meta">
+                <Tag color="blue" icon={<ClockCircleOutlined />}>
+                  {formatDuration(selectedRecording.duration)}
+                </Tag>
+                <Tag color="green">{selectedRecording.words} words</Tag>
+                <Tag color="purple">
+                  {dayjs(selectedRecording.timestamp).format(
+                    "MMM DD, YYYY hh:mm A"
+                  )}
+                </Tag>
+              </div>
+            </div>
+            <Button
+              className="close-btn"
+              icon={<CloseOutlined />}
+              onClick={handleCloseView}
+              size="large"
+            />
+          </div>
+
+          {/* Content - Two Panels */}
+          <div className="recording-content">
+            {/* Left Panel - Final Transcript */}
+            <div className="content-panel transcript-panel">
+              <h3 className="panel-title">Final Transcript</h3>
+              <div className="panel-content">
+                {selectedRecording.transcript ? (
+                  <p className="transcript-text">
+                    {selectedRecording.transcript}
+                  </p>
+                ) : (
+                  <p className="empty-message">No transcript available</p>
+                )}
+              </div>
+            </div>
+
+            {/* Right Panel - AI Summary */}
+            <div className="content-panel summary-panel">
+              <h3 className="panel-title">
+                AI Summary
+                {aiSummary && !isGenerating && (
+                  <span className="summary-badge">✓ Saved</span>
+                )}
+              </h3>
+              <div className="panel-content">
+                {isGenerating ? (
+                  <div className="loading-state">
+                    <Spin size="large" />
+                    <p>Generating AI summary...</p>
+                    <p className="loading-note">
+                      Collecting response from server...
+                    </p>
+                    <Button danger onClick={stopGeneration}>
+                      Stop Generation
+                    </Button>
+                  </div>
+                ) : summaryError ? (
+                  <div className="error-state">
+                    <p className="error-message">❌ {summaryError}</p>
+                    <Button type="primary" onClick={handleRegenerateSummary}>
+                      Retry
+                    </Button>
+                  </div>
+                ) : aiSummary ? (
+                  <p className="summary-text">{aiSummary}</p>
+                ) : (
+                  <div className="empty-state">
+                    <p className="empty-message">No summary available yet</p>
+                    <Button type="primary" onClick={handleGenerateSummary}>
+                      Generate Summary
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons - Below Panels */}
+          <div className="recording-actions">
+            <Space size="middle" wrap>
+              <Button
+                type="primary"
+                icon={<PlayCircleOutlined />}
+                onClick={handlePlay}
+                size="large"
+              >
+                Play Audio
+              </Button>
+              <Button
+                icon={<CopyOutlined />}
+                onClick={handleCopyTranscript}
+                size="large"
+              >
+                Copy Transcript
+              </Button>
+              <Button
+                icon={<CopyOutlined />}
+                onClick={handleCopyAiSummary}
+                size="large"
+              >
+                Copy AI Summary
+              </Button>
+              <Button
+                icon={<DownloadOutlined />}
+                onClick={handleDownload}
+                size="large"
+              >
+                Download Audio
+              </Button>
+              <Button
+                icon={<ExportOutlined />}
+                onClick={handleExport}
+                size="large"
+              >
+                Export Text
+              </Button>
+              {aiSummary && (
+                <Button
+                  icon={<ReloadOutlined />}
+                  onClick={handleRegenerateSummary}
+                  disabled={isGenerating}
+                  size="large"
+                >
+                  Regenerate Summary
+                </Button>
+              )}
+              <Popconfirm
+                title="Delete this recording?"
+                description="This action cannot be undone."
+                onClick={handleDelete}
+                okText="Yes"
+                cancelText="No"
+                okButtonProps={{ danger: true }}
+              >
+                <Button danger icon={<DeleteOutlined />} size="large">
+                  Delete
+                </Button>
+              </Popconfirm>
+            </Space>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="recordings-page">
@@ -307,99 +608,11 @@ const Recordings = () => {
             </div>
           ),
         }}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1000 }}
       />
 
-      {/* Transcript Modal */}
-      <Modal
-        title={
-          <div className="modal-title">
-            {isEditingTitle ? (
-              <Input
-                value={editedTitle}
-                onChange={(e) => setEditedTitle(e.target.value)}
-                onPressEnter={handleSaveTitle}
-                autoFocus
-                placeholder="Enter recording title"
-              />
-            ) : (
-              <span>{selectedRecording?.title}</span>
-            )}
-            <Button
-              type="link"
-              icon={<EditOutlined />}
-              onClick={() => {
-                if (isEditingTitle) {
-                  handleSaveTitle();
-                } else {
-                  setIsEditingTitle(true);
-                }
-              }}
-            >
-              {isEditingTitle ? "Save" : "Edit"}
-            </Button>
-          </div>
-        }
-        open={isModalVisible}
-        onCancel={() => {
-          setIsModalVisible(false);
-          setIsEditingTitle(false);
-        }}
-        footer={[
-          <Button
-            key="copy"
-            onClick={() => {
-              navigator.clipboard.writeText(
-                selectedRecording?.transcript || ""
-              );
-              toast.success("📋 Transcript copied to clipboard!");
-            }}
-          >
-            📋 Copy Transcript
-          </Button>,
-          <Button key="play" onClick={() => handlePlay(selectedRecording)}>
-            ▶️ Play Audio
-          </Button>,
-          <Button
-            key="download"
-            type="primary"
-            onClick={() => handleDownload(selectedRecording)}
-          >
-            <DownloadOutlined /> Download Audio
-          </Button>,
-        ]}
-        width={800}
-      >
-        {selectedRecording && (
-          <div className="modal-content">
-            {/* Metadata Tags */}
-            <div className="modal-meta">
-              <Tag color="blue" icon={<ClockCircleOutlined />}>
-                {formatDuration(selectedRecording.duration)}
-              </Tag>
-              <Tag color="green">{selectedRecording.words} words</Tag>
-              <Tag color="purple">
-                {dayjs(selectedRecording.timestamp).format(
-                  "MMM DD, YYYY hh:mm A"
-                )}
-              </Tag>
-            </div>
-
-            {/* Full Transcript */}
-            <div className="transcript-full">
-              <Title level={5}>Full Transcript:</Title>
-              <TextArea
-                value={
-                  selectedRecording.transcript || "No transcript available"
-                }
-                rows={12}
-                readOnly
-                className="transcript-textarea"
-              />
-            </div>
-          </div>
-        )}
-      </Modal>
+      {/* Full-Screen Recording View */}
+      {isViewOpen && renderRecordingView()}
     </div>
   );
 };

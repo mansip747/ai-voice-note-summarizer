@@ -1,6 +1,6 @@
 // src/modules/Dashboard/components/LiveTranscript/LiveTranscript.jsx
-import React from 'react';
-import './LiveTranscript.scss';
+import React from "react";
+import "./LiveTranscript.scss";
 
 const LiveTranscript = ({ transcript, isRecording, wordCount }) => {
   return (

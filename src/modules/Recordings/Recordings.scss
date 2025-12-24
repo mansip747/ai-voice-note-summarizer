@@ -1,32 +1,40 @@
 // src/modules/Recordings/Recordings.scss
+
 .recordings-page {
   padding: 20px;
-  background: #f5f7fa;
+  background: #f5f7fa !important; // ✅ Light background
   min-height: 100vh;
+  position: relative;
 
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+
+  // Header Section
   .recordings-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 30px;
     padding: 30px;
-    background: white;
+    background: white !important; // ✅ White background for header
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 
     @media (max-width: 768px) {
       flex-direction: column;
       gap: 20px;
+      padding: 20px;
     }
 
     h2 {
       margin: 0 0 10px 0;
-      color: #1a1a2e;
+      color: #1a1a2e !important; // ✅ Dark text
     }
 
     .ant-typography {
       margin-bottom: 0;
-      color: #666;
+      color: #666 !important; // ✅ Gray text
     }
 
     .header-stats {
@@ -55,40 +63,92 @@
     }
   }
 
-  // Table customization
+  // ✅ Table Customization - Ensure white background
   .ant-table {
-    background: white;
+    background: white; // ✅ White table background
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+    // ✅ Table wrapper
+    .ant-table-wrapper {
+      background: white;
+    }
+
+    // ✅ Table container
+    .ant-table-container {
+      background: white;
+    }
+
+    // ✅ Table header
+    .ant-table-thead > tr > th {
+      background: #fafafa; // ✅ Light gray header
+      color: #1a1a2e; // ✅ Dark text
+      font-weight: 600;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    // ✅ Table body
+    .ant-table-tbody {
+      background: white;
+
+      > tr {
+        background: white; // ✅ White row background
+
+        &:hover {
+          background: #f9f9f9; // ✅ Light hover effect
+        }
+
+        > td {
+          background: transparent;
+          color: #333; // ✅ Dark text
+          border-bottom: 1px solid #f0f0f0;
+        }
+      }
+    }
 
     .title-cell {
       strong {
         display: block;
         margin-bottom: 8px;
-        color: #1a1a2e;
+        color: #1a1a2e !important; // ✅ Dark text
+        font-size: 15px;
       }
 
       .meta-info {
         display: flex;
         gap: 8px;
+        flex-wrap: wrap;
       }
     }
 
     .time-text {
       font-size: 12px;
-      color: #999;
+      color: #999; // ✅ Gray text
       margin-top: 4px;
     }
 
     .transcript-preview {
-      color: #666;
+      color: #000 !important; // ✅ Gray text
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.6;
+    }
+
+    // Open button styling
+    .ant-btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      font-weight: 600;
+
+      &:hover {
+        background: linear-gradient(135deg, #5568d3 0%, #63408a 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      }
     }
   }
 
-  // Empty state
+  // Empty State
   .empty-state {
     padding: 60px 20px;
     text-align: center;
@@ -96,6 +156,7 @@
     p {
       margin: 10px 0;
       color: #999;
+      font-size: 14px;
 
       &.empty-hint {
         font-size: 14px;
@@ -103,68 +164,942 @@
       }
     }
   }
+}
 
-  // Modal customization
-  .modal-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+// ✅ Global Ant Design overrides to ensure light theme
+:global {
+  .ant-table {
+    background: white !important;
+    color: #333 !important;
+  }
 
-    span {
-      flex: 1;
-      font-size: 18px;
-      font-weight: 600;
+  .ant-table-thead > tr > th {
+    background: #fafafa !important;
+    color: #1a1a2e !important;
+  }
+
+  .ant-table-tbody > tr {
+    background: white !important;
+
+    &:hover > td {
+      background: #f9f9f9 !important;
     }
 
-    .ant-input {
-      flex: 1;
-      font-size: 16px;
-      font-weight: 600;
+    > td {
+      color: #333 !important;
+      border-bottom: 1px solid #f0f0f0 !important;
     }
   }
 
-  .modal-content {
-    .modal-meta {
-      margin-bottom: 20px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+  .ant-pagination {
+    .ant-pagination-item {
+      background: white;
+      border-color: #d9d9d9;
 
-    .transcript-full {
-      h5 {
-        margin-bottom: 10px;
-        color: #1a1a2e;
+      a {
+        color: #333;
       }
 
-      .transcript-textarea {
-        font-family: "Arial", sans-serif;
-        font-size: 14px;
-        line-height: 1.8;
-        resize: none;
-        background: #f9f9f9;
-        border: 1px solid #e0e0e0;
+      &:hover {
+        border-color: #667eea;
 
-        &:focus {
-          background: white;
+        a {
+          color: #667eea;
+        }
+      }
+
+      &.ant-pagination-item-active {
+        background: #667eea;
+        border-color: #667eea;
+
+        a {
+          color: white;
+        }
+      }
+    }
+
+    .ant-pagination-prev,
+    .ant-pagination-next {
+      .ant-pagination-item-link {
+        background: white;
+        border-color: #d9d9d9;
+        color: #333;
+
+        &:hover {
+          border-color: #667eea;
+          color: #667eea;
+        }
+      }
+    }
+  }
+
+  .ant-tag {
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 2px 8px;
+    font-weight: 500;
+  }
+
+  .ant-btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+
+    &:hover {
+      background: linear-gradient(135deg, #5568d3 0%, #63408a 100%);
+    }
+  }
+}
+
+// ✅ NEW: Full-Screen Recording View Overlay
+.recording-view-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+
+  // Container
+  .recording-view-container {
+    width: 100%;
+    max-width: 1400px;
+    max-height: 95vh;
+    background: #1a1a2e;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.4s ease-out;
+
+    @media (max-width: 768px) {
+      max-height: 98vh;
+      border-radius: 16px;
+    }
+  }
+
+  // Header
+  .recording-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 30px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 20px;
+
+    @media (max-width: 768px) {
+      padding: 20px;
+      flex-direction: column;
+    }
+
+    .title-section {
+      flex: 1;
+      min-width: 0;
+
+      .title-display {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        color: #fff !important;
+
+        h1 {
+          margin: 0;
+          font-size: 28px;
+          font-weight: 700;
+          line-height: 1.3;
+
+          @media (max-width: 768px) {
+            font-size: 22px;
+          }
+        }
+
+        .ant-btn-link {
+          color: #667eea;
+          font-size: 14px;
+
+          &:hover {
+            color: #5568d3;
+          }
+        }
+      }
+
+      .title-edit {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .ant-input {
+          flex: 1;
+          min-width: 200px;
+          font-size: 18px;
+          font-weight: 600;
+
+          @media (max-width: 768px) {
+            font-size: 16px;
+          }
+        }
+
+        .ant-btn {
+          flex-shrink: 0;
+        }
+      }
+
+      .recording-meta {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+
+        @media (max-width: 768px) {
+          margin-top: 12px;
+        }
+      }
+    }
+
+    .close-btn {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+
+      @media (max-width: 768px) {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(90deg);
+      }
+
+      &:active {
+        transform: rotate(90deg) scale(0.95);
+      }
+    }
+  }
+
+  // Content - Two Panels Side by Side
+  .recording-content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 30px;
+    overflow: hidden;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+      padding: 15px;
+      gap: 15px;
+    }
+
+    .content-panel {
+      display: flex;
+      flex-direction: column;
+      background: #0f0f1e;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      min-height: 300px;
+
+      @media (max-width: 992px) {
+        min-height: 250px;
+      }
+
+      .panel-title {
+        margin: 0;
+        padding: 20px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        @media (max-width: 768px) {
+          padding: 15px;
+          font-size: 16px;
+        }
+
+        .summary-badge {
+          display: inline-block;
+          padding: 4px 12px;
+          background: #10b981;
+          color: white;
+          font-size: 11px;
+          border-radius: 12px;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+      }
+
+      .panel-content {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        color: #e0e0e0;
+        line-height: 1.8;
+
+        @media (max-width: 768px) {
+          padding: 15px;
+          line-height: 1.7;
+        }
+
+        .transcript-text,
+        .summary-text {
+          margin: 0;
+          font-size: 15px;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+
+          @media (max-width: 768px) {
+            font-size: 14px;
+          }
+        }
+
+        .empty-message {
+          color: #666;
+          font-style: italic;
+          text-align: center;
+          margin-top: 40px;
+          font-size: 14px;
+        }
+
+        // Loading State
+        .loading-state {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          gap: 15px;
+          padding: 40px 20px;
+
+          p {
+            margin: 0;
+            color: #999;
+            font-size: 14px;
+            text-align: center;
+          }
+
+          .loading-note {
+            font-size: 13px;
+            color: #6b7280;
+            font-style: italic;
+          }
+
+          .ant-btn {
+            margin-top: 10px;
+          }
+        }
+
+        // Error State
+        .error-state {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          gap: 15px;
+          padding: 40px 20px;
+
+          .error-message {
+            color: #ff4d4f;
+            font-size: 14px;
+            text-align: center;
+          }
+        }
+
+        // Empty State with Generate Button
+        .empty-state {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          gap: 20px;
+          padding: 40px 20px;
+
+          .empty-message {
+            color: #999;
+            font-size: 15px;
+            margin: 0;
+          }
+
+          .ant-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            height: 40px;
+            padding: 0 24px;
+
+            &:hover {
+              background: linear-gradient(135deg, #5568d3 0%, #63408a 100%);
+              transform: translateY(-2px);
+              box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            }
+          }
+        }
+      }
+
+      // Scrollbar Styling
+      .panel-content::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .panel-content::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+      }
+
+      .panel-content::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.3);
+        }
+      }
+    }
+  }
+
+  // Action Buttons Section
+  .recording-actions {
+    padding: 25px 30px;
+    background: #16213e;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+
+    @media (max-width: 768px) {
+      padding: 20px 15px;
+    }
+
+    .ant-space {
+      width: 100%;
+      justify-content: center;
+
+      @media (max-width: 768px) {
+        justify-content: stretch;
+      }
+    }
+
+    .ant-btn {
+      height: 42px;
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+
+      @media (max-width: 768px) {
+        height: 38px;
+        font-size: 13px;
+        flex: 1;
+        min-width: 0;
+      }
+
+      &:not(.ant-btn-dangerous):not(.ant-btn-primary) {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.15);
+          border-color: rgba(255, 255, 255, 0.3);
+          transform: translateY(-2px);
+        }
+      }
+
+      &.ant-btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+
+        &:hover {
+          background: linear-gradient(135deg, #5568d3 0%, #63408a 100%);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+      }
+
+      &.ant-btn-dangerous {
+        &:hover {
+          transform: translateY(-2px);
+        }
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+
+        &:hover {
+          transform: none;
         }
       }
     }
   }
 }
 
-// Ant Design overrides
-.ant-btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-
-  &:hover {
-    background: linear-gradient(135deg, #5568d3 0%, #63408a 100%);
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-.ant-tag {
-  border-radius: 4px;
-  font-size: 12px;
-  padding: 2px 8px;
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Ant Design Global Overrides
+:global {
+  .ant-btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+
+    &:hover {
+      background: linear-gradient(135deg, #5568d3 0%, #63408a 100%);
+    }
+  }
+
+  .ant-tag {
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 2px 8px;
+    font-weight: 500;
+  }
+
+  .ant-spin-dot-item {
+    background-color: #667eea;
+  }
+}
+
+// Responsive Adjustments
+@media (max-width: 768px) {
+  .recording-view-overlay {
+    .recording-content {
+      .content-panel {
+        .panel-title {
+          flex-wrap: wrap;
+          gap: 8px;
+
+          .summary-badge {
+            font-size: 10px;
+            padding: 3px 10px;
+          }
+        }
+
+        .panel-content {
+          .transcript-text,
+          .summary-text {
+            font-size: 13px;
+          }
+        }
+      }
+    }
+
+    .recording-actions {
+      .ant-space {
+        width: 100%;
+
+        .ant-space-item {
+          flex: 1;
+          min-width: 0;
+
+          .ant-btn {
+            width: 100%;
+
+            span:not(.anticon) {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .recording-view-overlay {
+    padding: 5px;
+
+    .recording-view-container {
+      border-radius: 12px;
+    }
+
+    .recording-header {
+      padding: 15px;
+
+      .title-section {
+        .title-display h1 {
+          font-size: 18px;
+        }
+
+        .title-edit .ant-input {
+          font-size: 14px;
+        }
+
+        .recording-meta {
+          margin-top: 10px;
+
+          .ant-tag {
+            font-size: 11px;
+            padding: 1px 6px;
+          }
+        }
+      }
+
+      .close-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+    }
+
+    .recording-content {
+      padding: 10px;
+      gap: 10px;
+
+      .content-panel {
+        min-height: 200px;
+        border-radius: 12px;
+
+        .panel-title {
+          padding: 12px;
+          font-size: 15px;
+        }
+
+        .panel-content {
+          padding: 12px;
+
+          .transcript-text,
+          .summary-text {
+            font-size: 12px;
+            line-height: 1.6;
+          }
+
+          .empty-message {
+            font-size: 13px;
+            margin-top: 30px;
+          }
+
+          .loading-state,
+          .error-state,
+          .empty-state {
+            padding: 30px 15px;
+
+            p {
+              font-size: 13px;
+            }
+
+            .ant-btn {
+              height: 36px;
+              padding: 0 20px;
+              font-size: 13px;
+            }
+          }
+        }
+      }
+    }
+
+    .recording-actions {
+      padding: 15px 10px;
+
+      .ant-btn {
+        height: 36px;
+        font-size: 12px;
+        padding: 0 12px;
+
+        .anticon {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+// Landscape Mode for Tablets
+@media (max-width: 992px) and (orientation: landscape) {
+  .recording-view-overlay {
+    .recording-view-container {
+      .recording-content {
+        grid-template-columns: 1fr 1fr;
+        overflow: hidden;
+
+        .content-panel {
+          .panel-content {
+            overflow-y: auto;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Very Small Screens (iPhone SE, etc.)
+@media (max-width: 375px) {
+  .recordings-page {
+    padding: 8px;
+
+    .recordings-header {
+      padding: 15px;
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .header-stats .stat-card {
+        min-width: 100px;
+        padding: 12px 20px;
+
+        .stat-value {
+          font-size: 20px;
+        }
+
+        .stat-label {
+          font-size: 11px;
+        }
+      }
+    }
+  }
+
+  .recording-view-overlay {
+    padding: 3px;
+
+    .recording-view-container {
+      border-radius: 10px;
+    }
+
+    .recording-header {
+      padding: 12px;
+
+      .title-section {
+        .title-display h1 {
+          font-size: 16px;
+        }
+      }
+
+      .close-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+      }
+    }
+
+    .recording-content {
+      padding: 8px;
+      gap: 8px;
+
+      .content-panel {
+        .panel-title {
+          padding: 10px;
+          font-size: 14px;
+        }
+
+        .panel-content {
+          padding: 10px;
+
+          .transcript-text,
+          .summary-text {
+            font-size: 11px;
+          }
+        }
+      }
+    }
+
+    .recording-actions {
+      padding: 12px 8px;
+
+      .ant-btn {
+        height: 32px;
+        font-size: 11px;
+        padding: 0 10px;
+
+        .anticon {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+// Print Styles (Optional - for printing transcripts)
+@media print {
+  .recordings-page {
+    background: white;
+
+    .recordings-header,
+    .ant-table {
+      box-shadow: none;
+    }
+  }
+
+  .recording-view-overlay {
+    position: static;
+    background: white;
+    padding: 0;
+
+    .recording-view-container {
+      box-shadow: none;
+      max-height: none;
+
+      .recording-header {
+        background: white;
+        border-bottom: 2px solid #000;
+
+        .close-btn {
+          display: none;
+        }
+      }
+
+      .recording-content {
+        .content-panel {
+          background: white;
+          border: 1px solid #000;
+
+          .panel-title {
+            background: #f5f5f5;
+            color: #000;
+          }
+
+          .panel-content {
+            color: #000;
+          }
+        }
+      }
+
+      .recording-actions {
+        display: none;
+      }
+    }
+  }
+}
+
+// Dark Mode Support (Optional)
+@media (prefers-color-scheme: dark) {
+  .recordings-page {
+    background: #0a0a0a;
+
+    .recordings-header {
+      background: #1a1a1a;
+
+      h2,
+      .ant-typography {
+        color: #ffffff;
+      }
+    }
+
+    .ant-table {
+      background: #1a1a1a;
+
+      .title-cell strong {
+        color: #ffffff;
+      }
+
+      .transcript-preview {
+        color: #cccccc;
+      }
+    }
+  }
+}
+
+// Accessibility Improvements
+.recording-view-overlay {
+  // Focus visible for keyboard navigation
+  .ant-btn:focus-visible {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+  }
+
+  .close-btn:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  // High contrast mode support
+  @media (prefers-contrast: high) {
+    .recording-view-container {
+      border: 2px solid white;
+    }
+
+    .content-panel {
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+
+    .recording-view-container {
+      animation: none;
+    }
+
+    .ant-btn {
+      transition: none;
+
+      &:hover {
+        transform: none;
+      }
+    }
+
+    .close-btn:hover {
+      transform: none;
+    }
+  }
+}
+
+// Loading Spinner Animation
+:global {
+  .ant-spin-dot {
+    font-size: 32px;
+
+    .ant-spin-dot-item {
+      width: 12px;
+      height: 12px;
+    }
+  }
 }

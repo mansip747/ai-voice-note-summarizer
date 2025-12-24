@@ -1,0 +1,229 @@
+// src/modules/ActionItems/ActionItems.scss
+
+.action-items-page {
+  padding: 24px;
+  background: #ffffff;
+  min-height: 100vh;
+
+  // Header Section
+  .action-items-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+    padding: 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    color: white;
+
+    h2 {
+      color: white !important;
+      margin-bottom: 8px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .header-stats {
+      display: flex;
+      gap: 16px;
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        padding: 16px 24px;
+        border-radius: 8px;
+        text-align: center;
+        min-width: 140px;
+
+        .stat-value {
+          font-size: 32px;
+          font-weight: 700;
+          color: white;
+          margin-bottom: 4px;
+        }
+
+        .stat-label {
+          font-size: 13px;
+          color: rgba(255, 255, 255, 0.9);
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+  }
+
+  // Loading State
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    background: white;
+    border-radius: 8px;
+  }
+
+  // Table Customization
+  .ant-table {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    .ant-table-thead > tr > th {
+      background: #fafafa;
+      font-weight: 600;
+      font-size: 14px;
+      color: #262626;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .ant-table-tbody > tr {
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #f5f5ff;
+        // cursor: pointer;
+      }
+    }
+  }
+
+  // Title Cell
+  .title-cell {
+    strong {
+      display: block;
+      font-size: 15px;
+      color: #262626;
+      margin-bottom: 8px;
+    }
+
+    .meta-info {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+  }
+
+  // Time Text
+  .time-text {
+    color: #8c8c8c;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  // Summary Preview
+  .summary-preview {
+    .summary-text {
+      color: #595959;
+      font-size: 13px;
+      margin-top: 8px;
+      line-height: 1.5;
+    
+    }
+  }
+
+  // Empty State
+  .ant-empty {
+    padding: 60px 20px;
+
+    .ant-empty-description {
+      p {
+        margin: 8px 0;
+        color: #8c8c8c;
+      }
+
+      .empty-hint {
+        color: #bfbfbf;
+        font-size: 13px;
+        font-style: italic;
+      }
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 768px) {
+    padding: 16px;
+
+    .action-items-header {
+      flex-direction: column;
+      gap: 20px;
+
+      .header-stats {
+        width: 100%;
+
+        .stat-card {
+          flex: 1;
+        }
+      }
+    }
+
+    .ant-table {
+      .ant-table-thead > tr > th {
+        font-size: 12px;
+        padding: 12px 8px;
+      }
+
+      .ant-table-tbody > tr > td {
+        font-size: 13px;
+        padding: 12px 8px;
+      }
+    }
+
+    .title-cell strong {
+      font-size: 14px;
+    }
+
+    .summary-preview .summary-text {
+      font-size: 12px;
+    }
+  }
+}
+
+// Tags Customization
+.ant-tag {
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 2px 8px;
+  border: none;
+
+  &.ant-tag-blue {
+    background: #e6f7ff;
+    color: #1890ff;
+  }
+
+  &.ant-tag-green {
+    background: #f6ffed;
+    color: #52c41a;
+  }
+
+  &.ant-tag-purple {
+    background: #f9f0ff;
+    color: #722ed1;
+  }
+}
+
+// Button Customization
+.ant-btn-primary {
+  background: #667eea;
+  border-color: #667eea;
+  border-radius: 6px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #764ba2;
+    border-color: #764ba2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}

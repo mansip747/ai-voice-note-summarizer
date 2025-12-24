@@ -1,11 +1,12 @@
 // src/modules/Dashboard/Dashboard.scss
 .dashboard {
   width: 100%;
-  height: calc(100vh - 60px); // Adjust based on your header height
+  min-height: calc(100vh - 60px); // Adjust based on your header height
   display: flex;
   flex-direction: column;
   background: #ffffff;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   // Initial Screen (Not Recording)
   .dashboard-initial {
@@ -115,7 +116,7 @@
           font-size: 32px;
           font-weight: 700;
           color: #1a1a2e;
-          font-family: 'Courier New', monospace;
+          font-family: "Courier New", monospace;
           text-align: center;
 
           @media (max-width: 768px) {
@@ -247,7 +248,8 @@
 
 // Animations
 @keyframes blink {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -256,7 +258,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
@@ -267,7 +270,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
   }
   50% {
@@ -299,7 +303,7 @@
 
     p {
       margin: 10px 0;
-      
+
       &.hint {
         font-size: 14px;
         color: #666;

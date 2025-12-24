@@ -1,145 +1,404 @@
 // src/modules/Dashboard/components/Header/Header.scss
 .dashboard-header {
-  margin-top:8px;
-  margin-bottom: 40px;
-  margin-left:8px;
-  margin-right:8px;
+  margin: 17px 4px 17px 4px;
   position: relative;
-  background: white;
-  border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
   transition: all 0.3s ease;
 
-  &.dragging {
-    border: 2px dashed #4a90e2;
-    background: #f0f7ff;
+  // ✅ NEW: Title Section - Standalone
+  .header-title-section {
+    text-align: left;
+    margin-left: 17px;
+    margin-bottom: 80px; // ✅ 4-5 cm gap (approximately 120px = 4.5cm at 96 DPI)
+
+    @media (max-width: 768px) {
+      margin-bottom: 80px; // Reduce gap on mobile
+    }
+
+    @media (max-width: 480px) {
+      margin-bottom: 60px;
+    }
+
+    .header-title {
+      margin: 0;
+      font-size: 42px;
+      font-weight: 700;
+      color: #1a1a2e;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+
+      @media (max-width: 768px) {
+        font-size: 32px;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 28px;
+      }
+    }
   }
 
-  .header-content {
+  // ✅ NEW: Content Box - Description + Upload Button
+  .header-content-box {
+    margin-left: 17px;
+    margin-right: 17px;
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 30px;
 
     @media (max-width: 768px) {
       flex-direction: column;
       align-items: stretch;
+      padding: 30px;
+      gap: 25px;
+    }
+
+    @media (max-width: 480px) {
+      padding: 20px;
+      gap: 20px;
+    }
+
+    // When dragging
+    &.dragging {
+      border: 2px dashed #4a90e2;
+      background: #f0f7ff;
     }
   }
 
-  .header-text {
+  // ✅ Description Wrapper
+  .header-description-wrapper {
     flex: 1;
-
-    .header-title {
-      margin: 0 0 16px 0;
-      font-size: 32px;
-      font-weight: 700;
-      color: #1a1a2e;
-      line-height: 1.2;
-
-      @media (max-width: 768px) {
-        font-size: 24px;
-      }
-    }
 
     .header-description {
       margin: 0;
       font-size: 16px;
       color: #666;
       line-height: 1.6;
-      max-width: 600px;
+      // max-width: 600px;
 
       @media (max-width: 768px) {
+        font-size: 15px;
+        max-width: 100%;
+      }
+
+      @media (max-width: 480px) {
         font-size: 14px;
       }
     }
   }
 
-  .upload-button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 28px;
-    background: white;
-    border: 2px solid #4a90e2;
-    border-radius: 10px;
-    color: #4a90e2;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
+  // ✅ Upload Section
+  .header-upload-section {
+    flex-shrink: 0;
 
-    &:hover:not(.disabled) {
-      background: #4a90e2;
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
-    }
+    .upload-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: white;
+      border: 2px solid #4a90e2;
+      border-radius: 10px;
+      color: #4a90e2;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      min-width: 160px;
 
-    &:active:not(.disabled) {
-      transform: translateY(0);
-    }
+      @media (max-width: 768px) {
+        width: 100%;
+        padding: 12px 24px;
+      }
 
-    // ✅ NEW: Disabled state styling
-    &.disabled {
-      background: #f5f5f5;
-      border-color: #d0d0d0;
-      color: #999;
-      cursor: not-allowed;
-      opacity: 0.6;
-      
-      &:hover {
-        transform: none;
-        box-shadow: none;
-        background: #f5f5f5;
-        color: #999;
+      @media (max-width: 480px) {
+        font-size: 14px;
+        padding: 10px 20px;
       }
 
       .upload-icon {
-        opacity: 0.5;
+        font-size: 20px;
+        transition: opacity 0.3s ease;
+
+        @media (max-width: 480px) {
+          font-size: 18px;
+        }
       }
-    }
 
-    .upload-icon {
-      font-size: 20px;
-      transition: opacity 0.3s ease;
-    }
+      // Hover state
+      &:hover:not(:disabled) {
+        background: #4a90e2;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+      }
 
-    @media (max-width: 768px) {
-      width: 100%;
-      justify-content: center;
+      // Active state
+      &:active:not(:disabled) {
+        transform: translateY(0);
+      }
+
+      // Disabled state
+      &:disabled {
+        background: #f5f5f5;
+        border-color: #d0d0d0;
+        color: #999;
+        cursor: not-allowed;
+        opacity: 0.6;
+
+        &:hover {
+          transform: none;
+          box-shadow: none;
+          background: #f5f5f5;
+          color: #999;
+        }
+
+        .upload-icon {
+          opacity: 0.5;
+        }
+      }
     }
   }
 
+  // Drag & Drop Overlay
   .drag-overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(74, 144, 226, 0.1);
-    backdrop-filter: blur(4px);
-    border-radius: 16px;
+    background: rgba(74, 144, 226, 0.15);
+    backdrop-filter: blur(6px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    z-index: 9999;
+    animation: fadeIn 0.2s ease-out;
 
     .drag-content {
+      background: white;
+      padding: 40px 60px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
       text-align: center;
-      color: #fd0751;
+      color: #4a90e2;
+      animation: scaleIn 0.3s ease-out;
+
+      @media (max-width: 768px) {
+        padding: 30px 40px;
+      }
+
+      @media (max-width: 480px) {
+        padding: 25px 30px;
+      }
 
       svg {
-        margin-bottom: 12px;
+        margin-bottom: 16px;
+        animation: bounce 1s ease-in-out infinite;
+
+        @media (max-width: 480px) {
+          width: 40px;
+          height: 40px;
+        }
       }
 
       p {
         margin: 0;
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 600;
+
+        @media (max-width: 768px) {
+          font-size: 18px;
+        }
+
+        @media (max-width: 480px) {
+          font-size: 16px;
+        }
       }
+      .file-hint {
+        margin-top: 8px;
+        font-size: 14px;
+        font-weight: 400;
+        opacity: 0.8;
+
+        @media (max-width: 480px) {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  // When recording is active
+  &.recording-active {
+    .header-content-box {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .upload-button {
+      cursor: not-allowed;
+    }
+  }
+
+  // When dragging
+  &.dragging {
+    .header-content-box {
+      border: 2px dashed #4a90e2;
+      background: #f0f7ff;
+      transform: scale(1.02);
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+// Responsive adjustments for very small screens
+@media (max-width: 375px) {
+  .dashboard-header {
+    margin: 5px 5px 30px 5px;
+
+    .header-title-section {
+      margin-bottom: 50px;
+
+      .header-title {
+        font-size: 24px;
+      }
+    }
+
+    .header-content-box {
+      padding: 18px;
+      border-radius: 12px;
+      gap: 18px;
+
+      .header-description-wrapper {
+        .header-description {
+          font-size: 13px;
+          line-height: 1.5;
+        }
+      }
+
+      .header-upload-section {
+        .upload-button {
+          font-size: 13px;
+          padding: 9px 18px;
+          min-width: 140px;
+
+          .upload-icon {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Tablet landscape mode
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .dashboard-header {
+    .header-title-section {
+      margin-bottom: 80px;
+
+      .header-title {
+        font-size: 36px;
+      }
+    }
+
+    .header-content-box {
+      padding: 35px;
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .dashboard-header {
+    box-shadow: none;
+
+    .header-content-box {
+      box-shadow: none;
+      border: 1px solid #ddd;
+    }
+
+    .header-upload-section {
+      display: none;
+    }
+
+    .drag-overlay {
+      display: none;
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .dashboard-header {
+    .header-content-box {
+      border: 2px solid #000;
+    }
+
+    .upload-button {
+      border: 3px solid #4a90e2;
+      font-weight: 700;
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-header {
+    transition: none;
+
+    .header-content-box {
+      transition: none;
+    }
+
+    .upload-button {
+      transition: none;
+
+      &:hover {
+        transform: none;
+      }
+    }
+
+    .drag-overlay,
+    .drag-content,
+    .drag-content svg {
+      animation: none;
     }
   }
 }

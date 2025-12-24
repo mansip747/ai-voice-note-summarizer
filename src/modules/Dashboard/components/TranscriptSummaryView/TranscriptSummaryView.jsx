@@ -1,57 +1,134 @@
 // src/modules/Dashboard/components/TranscriptSummaryView/TranscriptSummaryView.jsx
-import React, { useState } from 'react';
-import { CloseOutlined } from '@ant-design/icons';
-import { toast } from 'react-toastify';
-import './TranscriptSummaryView.scss';
+import React, { useEffect, useRef } from "react";
+import { CloseOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
+import useAISummary from "../../../../hooks/useAISummary";
+import { RecordingService } from "../../../../services/recordingDB";
+import "./TranscriptSummaryView.scss";
 
-const TranscriptSummaryView = ({ 
-  transcript, 
-  onClose, 
+const TranscriptSummaryView = ({
+  transcript,
+  recordingId, // ✅ NEW prop
+  onClose,
   onStartNewRecording,
-  recordingTitle = "Transcript 1"
+  recordingTitle = "Transcript 1",
 }) => {
-  const [aiSummary, setAiSummary] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
+  const {
+    summary: aiSummary,
+    isGenerating,
+    error: summaryError,
+    generateSummary,
+    loadSummary,
+    stopGeneration,
+    resetSummary,
+  } = useAISummary();
 
-  // Generate AI Summary (placeholder - will integrate with actual AI later)
-  const handleGenerateSummary = async () => {
-    setIsGenerating(true);
-    toast.info('Generating AI summary...');
+  const transcriptRef = useRef(transcript);
+  const recordingIdRef = useRef(recordingId);
+  const generationTriggeredRef = useRef(false);
 
-    // Simulate AI processing
-    setTimeout(() => {
-      // Simple extractive summary (first 3 sentences)
-      const sentences = transcript.match(/[^.!?]+[.!?]+/g) || [];
-      const summary = sentences.slice(0, 3).join(' ').trim();
-      
-      setAiSummary(summary || 'No summary available. The transcript might be too short.');
-      setIsGenerating(false);
-      toast.success('AI summary generated!');
-    }, 2000);
-  };
+  useEffect(() => {
+    console.log("🔵 TranscriptSummaryView mounted");
+    console.log("📊 Recording ID:", recordingId);
 
-  // Regenerate summary
-  const handleRegenerate = () => {
-    handleGenerateSummary();
-  };
+    transcriptRef.current = transcript;
+    recordingIdRef.current = recordingId;
 
-  // Save transcript and summary
-  const handleSave = () => {
-    const data = {
-      title: recordingTitle,
-      transcript: transcript,
-      summary: aiSummary,
-      timestamp: new Date().toISOString(),
+    if (!transcript?.trim()) {
+      console.error("❌ No transcript available");
+      toast.error("No transcript available");
+      return;
+    }
+
+    if (generationTriggeredRef.current) {
+      console.log("⚠️ Already triggered");
+      return;
+    }
+
+    generationTriggeredRef.current = true;
+
+    // ✅ Load from DB first, generate only if needed
+    const initializeSummary = async () => {
+      if (recordingId) {
+        console.log("📖 Checking database for existing summary...");
+
+        try {
+          const existingSummary = await loadSummary(recordingId);
+
+          if (existingSummary) {
+            console.log("✅ Found existing summary in database");
+            toast.success("Summary loaded from database");
+            return; // ✅ Don't generate if we already have one
+          }
+        } catch (error) {
+          console.error("❌ Error loading summary:", error);
+        }
+      }
+
+      // ✅ No existing summary, generate new one
+      console.log("🚀 No existing summary found, generating new one...");
+
+      setTimeout(() => {
+        toast.info("Generating AI summary...");
+        generateSummary(transcript, recordingId);
+      }, 100);
     };
 
-    console.log('💾 Saving:', data);
-    toast.success('Transcript and summary saved!');
-    
-    // TODO: Save to database or local storage
+    initializeSummary();
+
+    return () => {
+      console.log("🔵 TranscriptSummaryView cleanup");
+    };
+  }, []); // ✅ Empty deps - run once
+
+  useEffect(() => {
+    if (summaryError) {
+      toast.error(summaryError);
+    }
+  }, [summaryError]);
+
+  // ✅ Regenerate: Overwrite existing summary in DB
+  const handleRegenerate = async () => {
+    console.log("🔄 Manual regeneration requested");
+
+    // Confirm if summary already exists
+    if (aiSummary) {
+      const confirmed = window.confirm(
+        "This will overwrite the existing summary. Continue?"
+      );
+      if (!confirmed) return;
+    }
+
+    generationTriggeredRef.current = false;
+    resetSummary();
+
+    setTimeout(() => {
+      generationTriggeredRef.current = true;
+      toast.info("Regenerating AI summary...");
+      // ✅ This will overwrite in DB via saveSummary()
+      generateSummary(transcriptRef.current, recordingIdRef.current);
+    }, 150);
   };
 
-  // Export as file
+  // ✅ Save is automatic now, just confirm
+  const handleSave = () => {
+    if (!aiSummary) {
+      toast.warning("No summary to save");
+      return;
+    }
+
+    // Summary is automatically saved to DB after generation
+    toast.success("Summary is already saved in database!");
+    console.log("💾 Summary already saved for recording:", recordingId);
+  };
+
+  // ✅ Export transcript and summary as text file
   const handleExport = () => {
+    if (!transcript) {
+      toast.error("No transcript to export");
+      return;
+    }
+
     const content = `
 ${recordingTitle}
 Generated: ${new Date().toLocaleString()}
@@ -60,28 +137,44 @@ Generated: ${new Date().toLocaleString()}
 ${transcript}
 
 === AI SUMMARY ===
-${aiSummary || 'No summary generated yet.'}
+${aiSummary || "No summary generated yet."}
     `.trim();
 
-    const blob = new Blob([content], { type: 'text/plain' });
+    const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `${recordingTitle.replace(/\s+/g, '_')}.txt`;
+    a.download = `${recordingTitle.replace(/\s+/g, "_")}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    toast.success('Transcript exported!');
+    toast.success("Transcript and summary exported!");
   };
 
-  // Auto-generate summary on mount
-  React.useEffect(() => {
-    if (transcript && !aiSummary) {
-      handleGenerateSummary();
+  // ✅ Export using RecordingService (includes all metadata)
+  const handleExportFromDB = async () => {
+    if (!recordingId) {
+      toast.error("Recording ID not found");
+      return;
     }
-  }, []);
+
+    try {
+      const recording = await RecordingService.getRecording(recordingId);
+
+      if (!recording) {
+        toast.error("Recording not found in database");
+        return;
+      }
+
+      RecordingService.exportRecordingAsText(recording);
+      toast.success("Recording exported successfully!");
+    } catch (error) {
+      console.error("❌ Error exporting recording:", error);
+      toast.error("Failed to export recording");
+    }
+  };
 
   return (
     <div className="transcript-summary-overlay">
@@ -110,39 +203,71 @@ ${aiSummary || 'No summary generated yet.'}
 
           {/* Right Side - AI Summary */}
           <div className="content-panel summary-panel">
-            <h3 className="panel-title">AI Summary</h3>
+            <h3 className="panel-title">
+              AI Summary
+              {aiSummary && (
+                <span className="summary-badge"> Saved to Database</span>
+              )}
+            </h3>
             <div className="panel-content">
               {isGenerating ? (
                 <div className="loading-state">
                   <div className="spinner"></div>
                   <p>Generating AI summary...</p>
+                  <p className="loading-note">
+                    Collecting response from server...
+                  </p>
+                  <button className="stop-btn" onClick={stopGeneration}>
+                    Stop Generation
+                  </button>
+                </div>
+              ) : summaryError ? (
+                <div className="error-state">
+                  <p className="error-message">❌ {summaryError}</p>
+                  <button className="retry-btn" onClick={handleRegenerate}>
+                    Retry
+                  </button>
                 </div>
               ) : aiSummary ? (
                 <p className="summary-text">{aiSummary}</p>
               ) : (
-                <p className="empty-message">Click "Regenerate" to create a summary</p>
+                <div className="empty-state">
+                  <p className="empty-message">No summary available yet</p>
+                  <button className="generate-btn" onClick={handleRegenerate}>
+                    Generate Summary
+                  </button>
+                </div>
               )}
             </div>
 
             {/* Summary Actions */}
             <div className="summary-actions">
-              <button 
+              <button
                 className="action-btn regenerate-btn"
                 onClick={handleRegenerate}
                 disabled={isGenerating}
+                title={
+                  aiSummary
+                    ? "Regenerate (will overwrite existing)"
+                    : "Generate new summary"
+                }
               >
-                🔄 Regenerate
+                🔄 {aiSummary ? "Regenerate" : "Generate"}
               </button>
               <div className="action-buttons-row">
-                <button 
+                <button
                   className="action-btn save-btn"
                   onClick={handleSave}
+                  disabled={!aiSummary || isGenerating}
+                  title="Summary is automatically saved to database"
                 >
                   💾 Save
                 </button>
-                <button 
+                <button
                   className="action-btn export-btn"
                   onClick={handleExport}
+                  disabled={isGenerating}
+                  title="Export transcript and summary as text file"
                 >
                   📤 Export
                 </button>
@@ -153,10 +278,7 @@ ${aiSummary || 'No summary generated yet.'}
 
         {/* Footer - Start New Recording */}
         <div className="transcript-footer">
-          <button 
-            className="new-recording-btn"
-            onClick={onStartNewRecording}
-          >
+          <button className="new-recording-btn" onClick={onStartNewRecording}>
             🎤 Start New Recording
           </button>
         </div>
@@ -166,4 +288,3 @@ ${aiSummary || 'No summary generated yet.'}
 };
 
 export default TranscriptSummaryView;
-

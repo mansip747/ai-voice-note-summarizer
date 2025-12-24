@@ -171,7 +171,7 @@
 
         .panel-content {
           flex: 1;
-          padding: 20px;
+          padding: 40px;
           overflow-y: auto;
           color: #e0e0e0;
           line-height: 1.8;
@@ -245,6 +245,55 @@
 
               @media (max-width: 480px) {
                 font-size: 13px;
+              }
+            }
+          }
+
+          .error-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 15px;
+
+            .error-message {
+              color: #ff4d4f;
+              font-size: 14px;
+              text-align: center;
+            }
+
+            .retry-btn {
+              padding: 10px 24px;
+              background: #ff4d4f;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: 600;
+              transition: all 0.3s ease;
+
+              &:hover {
+                background: #ff7875;
+              }
+            }
+          }
+
+          .loading-state {
+            .stop-btn {
+              margin-top: 15px;
+              padding: 8px 20px;
+              background: #ff4d4f;
+              color: white;
+              border: none;
+              border-radius: 6px;
+              cursor: pointer;
+              font-size: 13px;
+              font-weight: 600;
+              transition: all 0.3s ease;
+
+              &:hover {
+                background: #ff7875;
               }
             }
           }
